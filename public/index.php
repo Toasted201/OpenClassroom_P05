@@ -1,22 +1,22 @@
 <?php
-
-session_start();
+use Controller\FrontController;
 
 // charger autoloader
 require '../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__,1));
+session_start();
+
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 1));
 $dotenv->load();
 
 $action = $_GET['action'] ?? '';
 
-    if($action === ''){
-        $controller = new FrontController();
-        $controller->home();
-    }   
-    else{
-        echo 'page inconnue';
-    }
+if ($action === '') {
+    $controller = new FrontController();
+    $controller->home();
+} else {
+    echo 'page inconnue';
+}
 
 /*
 // ****************** COPIE TP_BLOG

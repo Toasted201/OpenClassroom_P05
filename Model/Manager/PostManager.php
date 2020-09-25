@@ -2,7 +2,7 @@
 
 namespace Managers;
 
-use Models\Entities\post;
+use Model\Entity\post;
 
 class PostManager extends Manager
 {

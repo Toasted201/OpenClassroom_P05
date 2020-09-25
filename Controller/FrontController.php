@@ -1,11 +1,19 @@
 <?php
 
+namespace Controller;
+
+class FrontController{
+    public function home(){
+        require 'view\home.php';
+        echo 'frontcontroller';
+    }
+}
 
 
-// **** Copie TP_Blog *******
+/* **** Copie TP_Blog *******
 
 
-require('models/frontend.php');
+require('model/frontend.php');
 
 function listPosts()
 {
@@ -40,3 +48,4 @@ function addComment($post_id, $author, $comment)
         header('Location: index.php?action=post&id=' . $post_id);
     }
 }
+*/

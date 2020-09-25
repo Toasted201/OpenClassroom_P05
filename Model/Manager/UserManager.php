@@ -1,10 +1,10 @@
 <?php
 
-namespace Managers;
+namespace Manager;
 
-use Models\Entities\User;
+use Model\Entity\User;
 
-class UserManager extends Manager
+class UserManager extends BaseManager
 {
   /*
   private $_db; // Instance de PDO.

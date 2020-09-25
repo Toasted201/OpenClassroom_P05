@@ -1,5 +1,6 @@
 {
     "name": "julie/open-classroom_p05",
+    "description": "",
     "authors": [
         {
             "name": "Julie Xaxa",
@@ -8,8 +9,8 @@
     ],
     "require": {
         "vlucas/phpdotenv": "^5.1",
-        "twig/twig": "2.0",
-        "thomaspark/bootswatch": "^4.5"
+        "thomaspark/bootswatch": "^4.5",
+        "twig/twig": "^3.0"
     },
     "autoload": {
         "psr-4": {

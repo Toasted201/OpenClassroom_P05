@@ -2,13 +2,13 @@
 
 namespace Controller;
 
-class FrontController{
-    public function home(){
-        require 'view\home.php';
-        echo 'frontcontroller';
+class FrontController extends BaseController
+{
+    public function home()
+    {
+        echo $this->render('home.html.twig', ['champ' => 'Hello']);
     }
 }
-
 
 /* **** Copie TP_Blog *******
 

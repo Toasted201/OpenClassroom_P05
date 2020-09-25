@@ -1,0 +1,22 @@
+{
+    "name": "julie/open-classroom_p05",
+    "authors": [
+        {
+            "name": "Julie Xaxa",
+            "email": "julie@helixsi.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.1",
+        "twig/twig": "2.0",
+        "thomaspark/bootswatch": "^4.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\":"app",
+            "Controller\\":"controller",
+            "Models\\":"models",
+            "Managers\\":"models/managers"
+        }
+    }
+}

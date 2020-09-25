@@ -1,10 +1,10 @@
 <?php
 
-namespace Managers;
+namespace Manager;
 
-use Models\Entities\comment;
+use Model\Entity\Comment;
 
-class CommentManager extends Manager
+class CommentManager extends BaseManager
 {
  
 

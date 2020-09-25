@@ -1,23 +1,23 @@
 <?php
 
-namespace Models\Entities;
+namespace Model\Entity;
 
-class Post
+class Comment
 {
     private $_id,
-            $_author,
+            $_post_id,
+            $_user_id,
             $_content,
-            $_title,
-            $_publish,
             $_dateCreate,
-            $_dateChange;
-    private $_posts = [];
-    private $_comments = [];
+            $_statut;
+    private $_post = [];
+    private $_user = [];
 
     //implementer le constructeur
     public function __construct($datas) {
         $this->hydrate($datas);
     }
+
 
     //hydratation
     public function hydrate(array $data){
@@ -27,17 +27,15 @@ class Post
             $this->$method($value);
         }
     }
+    }
 
-}
     // Getters
-
     public function id() { return $this->_id; }
+    public function post_id() { return $this->_post_id; }
     public function author() { return $this->_author;}
     public function content() { return $this->_content;}
-    public function title() { return $this->_title;}
-    public function publish() { return $this->_publish;}
     public function dateCreate() { return $this->_dateCreate;}
-    public function dateChange() { return $this->_dateChange;}
+    public function statut() { return $this->_statut;}
 
 
     // Setters
@@ -49,8 +47,14 @@ class Post
         }
     }
 
+    public function setPost($post){
+        if (is_int($post)){
+            $this->_post = $post;
+        }
+    }
+
     public function setAuthor($author){
-        if (is_string($author)){
+        if (is_int($author)){
             $this->_author = $author;
         }
     }
@@ -61,26 +65,15 @@ class Post
         }
     }
 
-    public function setTitle($title){
-        if (is_string($title)){
-            $this->_title = $title;
-        }
-    }
-
-    public function setPublish($publish){
-        if (is_bool($publish)){
-            $this->_publish = $publish;
-        }
-    }
-
     public function setDateCreate($dateCreate){
         $this->_dateCreate = $dateCreate;
-    } //TO DO
+        }
 
-    public function setDateChange($dateChange){
-        $this->_dateChange = $dateChange;
-    } //TO DO
+    public function setStatut($statut){
+        if (is_string($statut)){
+            $this->_statut = $statut;
+        }
+    }
 
 
 }
-

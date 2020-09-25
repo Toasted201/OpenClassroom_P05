@@ -1,8 +1,8 @@
 <?php
 
-namespace Managers;
+namespace Manager;
 
-abstract class Manager
+abstract class BaseManager
 {
 
     protected $db = null;

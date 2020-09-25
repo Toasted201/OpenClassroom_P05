@@ -2,18 +2,23 @@
 
 session_start();
 
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__,1));
-$dotenv->load();
-
 // charger autoloader
 require '../vendor/autoload.php';
 
-
-
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__,1));
+$dotenv->load();
 
 $action = $_GET['action'] ?? '';
 
+    if($action === ''){
+        $controller = new FrontController();
+        $controller->home();
+    }   
+    else{
+        echo 'page inconnue';
+    }
 
+/*
 // ****************** COPIE TP_BLOG
 
 if (isset($_GET['action'])) 
@@ -57,17 +62,13 @@ else
     listPosts();
 }
 
-// *******************  FIN
-
-
-
-
 
 
 
 // Appel routeur => lui passer l'action
 
-$router->get('index', ['controller'=>'FrontController', 'method'=>'index']);
+//$router->get('index', ['controller'=>'FrontController', 'method'=>'index']);
 
 
 // Lancer le routeur
+*/

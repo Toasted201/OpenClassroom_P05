@@ -6,12 +6,14 @@ use Models\Entities\User;
 
 class UserManager extends Manager
 {
+  /*
   private $_db; // Instance de PDO.
 
   public function __construct($db)
   {
     $this->setDb($db);
   }
+  */
 
   public function add(User $user){
   $req = $this->_db->prepare('INSERT INTO user(first_name, last_name, email, pass, date_creation, userRole) VALUES(:firstName, :lastName, :email, :pass, NOW(), :type)');
@@ -61,9 +63,10 @@ class UserManager extends Manager
         ]);
   }
 
+  /*
   public function setDb(PDO $db){
     $this->_db = $db;
   }
-
+  */
 
 }

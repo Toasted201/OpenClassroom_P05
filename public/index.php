@@ -1,15 +1,17 @@
 <?php
 use Controller\FrontController;
+use App\{Request, Session};
 
 // charger autoloader
 require '../vendor/autoload.php';
 
-session_start();
+Session::start();
 
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 1));
 $dotenv->load();
 
-$action = $_GET['action'] ?? '';
+$action = Request::get('action');
+
 
 if ($action === '') {
     $controller = new FrontController();

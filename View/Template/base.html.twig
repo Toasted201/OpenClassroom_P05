@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="css/custom.min.css">
+</head>
+
+<body>
+
+
+<div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="?action="><img src="img/logo.png" alt="helixsi"></img></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="?action=posts">Articles <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="?action=cv">Mon CV<span class="sr-only">(current)</span></a>
+                  </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="?action=connexion">Connexion <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="bs-docs-section clearfix">
+    <div class="container">
+        <div class="col">
+            <div class="bs-component">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="col-4">
+                        <h3>Julie Xaxa</h3>
+                    </div>
+                    <div class="col-8">
+                        <p>Je vous accompagne du <strong>métier</strong> à la <strong>mise en oeuvre technique</strong>.</p>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<div class="container">
+    <div class="bs-docs-section"> <!--contenu-->
+            <div id="content">{% block content %}{% endblock %}</div>
+    </div>    
+    <div class="bs-component p-4"> <!--footer-->
+        <div class="row">
+           <div class="col-4">
+               <a button type="button" class="btn btn-warning" href="?action=admin">Admin</button></a>
+            </div>
+            <div class="col-8">
+               <p class="text-right">
+                    <a href="https://github.com/Toasted201" target="_blank"><img src="img/github.png" alt="Logo GitHub" width="40" height="40"></img></a>
+                    <a href="https://fr.linkedin.com/school/openclassrooms/" target="_blank"><img src="img/linkedin.png"  alt="Logo Linkedin" width="40" height="40"></img></a>
+                    <a href="https://twitter.com/openclassrooms?lang=fr" target="_blank"><img src="img/twitter.png" alt="Logo Twitter" width="40" height="40"></img></a>
+                </p>    
+            </div>
+        </div>
+    </div>
+</div>   
+</body>
+</html>

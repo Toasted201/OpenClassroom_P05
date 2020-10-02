@@ -1,13 +1,45 @@
-<!DOCTYPE html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Accueil</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="..\public\css\bootstrap.css">
-    </head>
-    <body>
-<h1> {{ champ }} </h1>
-    </body>
-</html>
+{% extends "base.html.twig" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 col-md-8">
+         {% for post in listPostsHome %}
+            <div class="card border-primary mb-3" style="width: 100%;">
+              <img src="img/news.jpg" class="card-img-top" alt="imageblog">
+              <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text"> {{ post.chapo }} </p> 
+                <a href="#" class="btn btn-primary">La suite</a>
+              </div>
+            </div>  
+          {% endfor %}
+        </div>
+           
+        <div class="col-12 col-md-4 border border-primary-light">
+          <div class="bs-docs-section">
+            <form>
+                <fieldset>
+                  <h3>Contactez-moi</h3>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Nom Prénom</label>
+                    <input type="text" class="form-control" id="nomMessage" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Votre email</label>
+                    <input type="email" class="form-control" id="emailMessage" placeholder="exemple@exemple.com" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleTextarea">Votre message : </label>
+                    <textarea class="form-control" id="contactMessage" rows="4" required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-info">Envoyer</button>
+                </fieldset>
+              </form>
+          </div>
+        </div>
+
+    </div>
+{% endblock %}
+

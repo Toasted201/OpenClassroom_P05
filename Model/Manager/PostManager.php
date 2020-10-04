@@ -38,7 +38,7 @@ class PostManager extends BaseManager
         $db = $this->getDb();
         $req = $db->prepare('SELECT id, title, content, chapo, user_id, DATE_FORMAT(date_create, \'%d/%m/%Y à %Hh%imin%ss\') AS date_create_fr FROM post WHERE id = :id');
         $req->execute(
-            ['id' => $post->Id()]
+            ['id' => $post->getId()]
         );
         $post = $req->fetch();
         $req->closeCursor();

@@ -26,7 +26,7 @@ class FrontController extends BaseController
         echo $this->render('connexion.html.twig',[]);
     }
 
-    public function cv()
+    public function curriculum()
     {
         echo $this->render('cv.html.twig',[]);
     }

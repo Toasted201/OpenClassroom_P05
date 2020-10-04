@@ -2,11 +2,38 @@
 
 namespace Controller;
 
+use Manager\PostManager;
+
 class FrontController extends BaseController
 {
     public function home()
     {
-        echo $this->render('home.html.twig', ['champ' => 'Hello']);
+
+        $manager = new PostManager();
+        $postsHome=$manager->getPostsHome();
+        echo $this->render('home.html.twig',['listPostsHome'=>$postsHome]);
+    }
+
+    public function posts()
+    {
+        $manager = new PostManager();
+        $posts=$manager->getPosts();
+        echo $this->render('posts.html.twig',['listPosts'=>$posts]);
+    }
+
+    public function connexion()
+    {
+        echo $this->render('connexion.html.twig',[]);
+    }
+
+    public function cv()
+    {
+        echo $this->render('cv.html.twig',[]);
+    }
+
+    public function admin()
+    {
+        echo $this->render('admin.html.twig',[]);
     }
 }
 

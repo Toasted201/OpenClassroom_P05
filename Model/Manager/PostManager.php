@@ -18,7 +18,16 @@ class PostManager extends BaseManager
     function getPosts()
     {
         $db = $this->getDb();
-        $req = $db->query('SELECT id, title, content, author, DATE_FORMAT(dateCreate, \'%d/%m/%Y à %Hh%imin%ss\') AS dateCreateFR FROM post ORDER BY dateCreate DESC');
+        $req = $db->query('SELECT id, title, content, chapo, user_id , DATE_FORMAT(date_create, \'%d/%m/%Y à %Hh%imin%ss\') AS date_create_fr FROM post ORDER BY date_create DESC');
+        $posts = $req->fetchAll();
+        $req->closeCursor();
+        return $posts;
+    }
+
+    function getPostsHome()
+    {
+        $db = $this->getDb();
+        $req = $db->query('SELECT id, title, content, chapo, user_id , DATE_FORMAT(date_create, \'%d/%m/%Y à %Hh%imin%ss\') AS date_create_fr FROM post ORDER BY date_create DESC LIMIT 3');
         $posts = $req->fetchAll();
         $req->closeCursor();
         return $posts;
@@ -27,7 +36,7 @@ class PostManager extends BaseManager
     function getPost(Post $post)
     {
         $db = $this->getDb();
-        $req = $db->prepare('SELECT id, title, content, author, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM post WHERE id = :id');
+        $req = $db->prepare('SELECT id, title, content, chapo, user_id, DATE_FORMAT(date_create, \'%d/%m/%Y à %Hh%imin%ss\') AS date_create_fr FROM post WHERE id = :id');
         $req->execute(
             ['id' => $post->Id()]
         );

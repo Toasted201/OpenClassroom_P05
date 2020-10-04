@@ -11,7 +11,8 @@ abstract class BaseController
         if ($this->twig === null) {
             $loader = new \Twig\Loader\FileSystemLoader('../View/Template');
             $this->twig = new \Twig\Environment($loader, [
-                'cache' => '/View/Template/Cache',
+                'cache' => '../View/Template/Cache', 
+                'auto_reload' => true,
             ]);
         }
         return $this->twig->render($masque, $parametres);

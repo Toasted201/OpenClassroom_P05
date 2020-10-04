@@ -1,6 +1,6 @@
 <?php
 use Controller\FrontController;
-use App\{Request, Session};
+use App\{Request, Session, Router};
 
 // charger autoloader
 require '../vendor/autoload.php';
@@ -12,13 +12,35 @@ $dotenv->load();
 
 $action = Request::get('action');
 
+/*TO DO - FINIR LE ROUTEUR
+$router = new Router($action);
+$router->get('', [FrontController::class, 'home']);
+
+$router->run();
+exit;
+*/
 
 if ($action === '') {
     $controller = new FrontController();
     $controller->home();
-} else {
-    echo 'page inconnue';
 }
+elseif ($action === 'posts') {
+    $controller = new FrontController();
+    $controller->posts();
+}
+elseif ($action === 'connexion') {
+    $controller = new FrontController();
+    $controller->connexion();
+}
+elseif ($action === 'cv') {
+    $controller = new FrontController();
+    $controller->cv();
+}
+elseif ($action === 'admin') {
+    $controller = new FrontController();
+    $controller->admin();
+}
+else echo 'PageInconnue';
 
 /*
 // ****************** COPIE TP_BLOG

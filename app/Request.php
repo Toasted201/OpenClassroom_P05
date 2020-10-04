@@ -18,7 +18,7 @@ class Request
 
     public static function method()
     {
-        return $_SERVER['HTTP-REQUEST-METHOD'];
+        return $_SERVER['REQUEST_METHOD'];
     }
 
 }

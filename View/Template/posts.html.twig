@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Liste des articles{% endblock %}
+
+{% block content %}
+    <div class="bs-component">
+         {% for post in listPosts %}
+            <div class="card" style="width: 100%;">
+              <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text"> {{ post.chapo }} </p>
+                <p class="card-text"> {{ post.content }} </p>
+                <a href="#" class="btn btn-primary">La suite</a>
+              </div>
+            </div>  
+          {% endfor %}
+    </div>
+{% endblock %}

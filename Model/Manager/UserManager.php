@@ -36,7 +36,7 @@ class UserManager extends BaseManager
 
     public function delete(User $user)
     {
-        $this->_db->execute('DELETE FROM user WHERE id = ' . $user->id());
+        $this->_db->execute('DELETE FROM user WHERE id = ' . $user->getId());
     }
 
     public function get($id)

@@ -32,9 +32,9 @@ elseif ($action === 'connexion') {
     $controller = new FrontController();
     $controller->connexion();
 }
-elseif ($action === 'cv') {
+elseif ($action === 'curriculum') {
     $controller = new FrontController();
-    $controller->cv();
+    $controller->curriculum();
 }
 elseif ($action === 'admin') {
     $controller = new FrontController();

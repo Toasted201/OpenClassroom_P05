@@ -1,11 +1,12 @@
 <?php
+
 namespace App;
 
 class Request
 {
     public static function get(string $key)
     {
-        if(isset($_GET[$key])) {
+        if (isset($_GET[$key])) {
             return $_GET[$key];
         }
         return '';
@@ -26,7 +27,7 @@ class Request
         if (!isset($_SERVER['DB_HOST'])) {
             throw new \Exception('DB_Host non défini');
         }
-            return $_SERVER['DB_HOST'];   
+            return $_SERVER['DB_HOST'];
     }
 
     public static function dbusername()
@@ -34,7 +35,7 @@ class Request
         if (!isset($_SERVER['DB_USERNAME'])) {
             throw new \Exception('DB_USERNAME non défini');
         }
-            return $_SERVER['DB_USERNAME'];   
+            return $_SERVER['DB_USERNAME'];
     }
 
     public static function dbname()
@@ -42,7 +43,7 @@ class Request
         if (!isset($_SERVER['DB_NAME'])) {
             throw new \Exception('DB_NAME non défini');
         }
-            return $_SERVER['DB_NAME'];   
+            return $_SERVER['DB_NAME'];
     }
 
     public static function dbpassword()
@@ -51,5 +52,5 @@ class Request
             throw new \Exception('DB_PASSWORD non défini');
         }
             return $_SERVER['DB_PASSWORD'];
-    }     
+    }
 }

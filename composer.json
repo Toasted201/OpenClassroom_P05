@@ -19,5 +19,8 @@
             "Model\\":"Model",
             "Manager\\":"Model/Manager"
         }
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5"
     }
 }

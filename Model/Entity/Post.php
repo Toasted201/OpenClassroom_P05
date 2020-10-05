@@ -11,8 +11,8 @@ class Post
             $_publish,
             $_dateCreate,
             $_dateChange;
-    private $_posts = [];
-    private $_comments = [];
+    //private $_posts = [];
+    //private $_comments = [];
 
     //implementer le constructeur
     public function __construct($datas)
@@ -32,7 +32,7 @@ class Post
     }
     // Getters
 
-    public function id()
+    public function Getid()
     {
         return $this->_id;
     }

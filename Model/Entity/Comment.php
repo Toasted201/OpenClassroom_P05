@@ -11,7 +11,7 @@ class Comment
         $_dateCreate,
         $_statut;
     private $_post = [];
-    private $_user = [];
+    //private $_user = [];
 
     //implementer le constructeur
     public function __construct($datas)
@@ -32,7 +32,7 @@ class Comment
     }
 
     // Getters
-    public function id()
+    public function getId()
     {
         return $this->_id;
     }

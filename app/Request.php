@@ -23,19 +23,37 @@ class Request
 
     public static function dbhost()
     {
-        return $_SERVER['DB_HOST'];
+        if (!isset($_SERVER['DB_HOST'])) {
+            throw new \Exception('DB_Host non défini');
+        } else {
+            return $_SERVER['DB_HOST'];   
+        }
     }
 
     public static function dbusername()
     {
-        return $_SERVER['DB_USERNAME'];
+        if (!isset($_SERVER['DB_USERNAME'])) {
+            throw new \Exception('DB_USERNAME non défini');
+        } else {
+            return $_SERVER['DB_USERNAME'];   
+        }
     }
+
     public static function dbname()
     {
-        return $_SERVER['DB_NAME'];
+        if (!isset($_SERVER['DB_USERNAME'])) {
+            throw new \Exception('DB_NAME non défini');
+        } else {
+            return $_SERVER['DB_NAME'];   
+        }
     }
+
     public static function dbpassword()
     {
-        return $_SERVER['DB_PASSWORD'];
-    }        
+        if (!isset($_SERVER['DB_PASSWORD'])) {
+            throw new \Exception('DB_PASSWORD non défini');
+        } else {
+            return $_SERVER['DB_PASSWORD'];   
+        }
+    }     
 }

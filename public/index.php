@@ -8,15 +8,19 @@ require '../vendor/autoload.php';
 Session::start();
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 1));
 $dotenv->load();
-$action = Request::get('action');
-/*TO DO - FINIR LE ROUTEUR
-$router = new Router($action);
-$router->get('', [FrontController::class, 'home']);
+
+$router = new Router();
+$router->pushGet('', [FrontController::class, 'home']);
+$router->pushGet('posts', [FrontController::class, 'posts']);
+$router->pushGet('post', [FrontController::class, 'post', ['postId']]);
+$router->pushGet('connexion', [FrontController::class, 'connexion']);
+$router->pushGet('curriculum', [FrontController::class, 'curriculum']);
+$router->pushGet('admin', [FrontController::class, 'admin']);
 
 $router->run();
 exit;
-*/
 
+/*
 if ($action === '') {
     $controller = new FrontController();
     $controller->home();
@@ -36,7 +40,7 @@ if ($action === '') {
     echo 'PageInconnue';
 }
 
-/*
+
 // ****************** COPIE TP_BLOG
 
 if (isset($_GET['action']))

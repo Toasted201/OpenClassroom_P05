@@ -32,7 +32,7 @@ class Post
     }
     // Getters
 
-    public function Getid()
+    public function getId()
     {
         return $this->_id;
     }
@@ -109,6 +109,4 @@ class Post
     {
         $this->_dateChange = $dateChange;
     } //TO DO
-
-
 }

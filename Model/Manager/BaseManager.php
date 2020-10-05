@@ -2,6 +2,8 @@
 
 namespace Manager;
 
+use App\Request;
+
 abstract class BaseManager
 {
 
@@ -9,8 +11,17 @@ abstract class BaseManager
 
     private function dbConnect()
     {
+        $db_host = Request::dbhost();
+        $db_name = Request::dbname();
+        $db_username = Request::dbusername();
+        $db_password = Request::dbpassword();
         if ($this->db === null) {
-            $this->db =  new \PDO('mysql:host=' . $_SERVER['DB_HOST'] . ';dbname=' . $_SERVER['DB_NAME'] . ';charset=utf8', $_SERVER['DB_USERNAME'], $_SERVER['DB_PASSWORD'], array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION));
+            $this->db =  new \PDO(
+                'mysql:host=' . $db_host . ';dbname=' . $db_name . ';charset=utf8',
+                $db_username,
+                $db_password,
+                array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION)
+            );
         }
     }
 

@@ -35,7 +35,7 @@ class User
     }
 
     // Getters
-    public function id()
+    public function GetId()
     {
         return $this->_id;
     }
@@ -126,7 +126,6 @@ class User
             $this->_userRole = $userRole;
         }
     }
-
 
     function isLoggedIn()
     {

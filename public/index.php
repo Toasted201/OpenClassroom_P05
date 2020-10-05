@@ -20,6 +20,7 @@ $router->pushGet('admin', [FrontController::class, 'admin']);
 $router->run();
 exit;
 
+//test code climate
 /*
 if ($action === '') {
     $controller = new FrontController();

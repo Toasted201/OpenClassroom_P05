@@ -9,9 +9,9 @@ abstract class BaseController
     protected function render(string $masque, array $parametres): string
     {
         if ($this->twig === null) {
-            $loader = new \Twig\Loader\FileSystemLoader('../View/Template');
+            $loader = new \Twig\Loader\FileSystemLoader('../View');
             $this->twig = new \Twig\Environment($loader, [
-                'cache' => '../View/Template/Cache', 
+                'cache' => '../View/Cache',
                 'auto_reload' => true,
             ]);
         }

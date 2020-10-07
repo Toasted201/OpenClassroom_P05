@@ -43,4 +43,11 @@ class FrontController extends BaseController
     {
         echo $this->render('Admin/admin.html.twig', []);
     }
+
+    /* préparation fonction pour envoi de mail - 
+    Vérif données avec if et fonction mail de php ou librairy 'php swift mailer' ou 'php mailer'
+    
+    public function contact() {
+
+    } */
 }

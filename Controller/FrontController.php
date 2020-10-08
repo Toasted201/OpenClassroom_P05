@@ -57,11 +57,14 @@ class FrontController extends BaseController
         $mailer = new \Swift_Mailer($transport);
 
         // Create a message
+        $body = 'Nom : ' . $_POST['identity'] .
+        PHP_EOL . 'Email : ' . $_POST['email'] .
+        PHP_EOL . 'Message : ' . $_POST['message'];
         $message = (new \Swift_Message('Contact Helixsi.com'))
         ->setFrom(['julie@helixsi.com' => 'Julie Xaxa'])
         ->setTo(['julie@helixsi.com' => 'Julie Xaxa'])
-        ->setBody('Here is the message itself')
-        ->setSubject('Formulaire HelixSI')
+        ->setBody($body)
+        ->setSubject('Formulaire Contact HelixSI')
         ;
 
         // Send the message

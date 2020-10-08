@@ -12,6 +12,11 @@ class Router
         $this->getRoutes[$action] = ['controller' => $controller, 'middleware' => $middleware];
     }
 
+    public function pushPost(string $action, array $controller, $middleware = null)
+    {
+        $this->postRoutes[$action] = ['controller' => $controller, 'middleware' => $middleware];
+    }
+
     public function run()
     {
         $url_action = Request::get('action'); //on récupère l'action dans l'url

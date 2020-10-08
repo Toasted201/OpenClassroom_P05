@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Manager\PostManager;
+use App\Session;
 
 class FrontController extends BaseController
 {
@@ -44,9 +45,36 @@ class FrontController extends BaseController
         echo $this->render('Admin/admin.html.twig', []);
     }
 
-    /* préparation fonction pour envoi de mail - 
+    public function contact()
+    {
+        // Create the Transport
+        $transport = (new \Swift_SmtpTransport('in-v3.mailjet.com', 587))
+        ->setUsername($_ENV['SMTP_USERNAME'])
+        ->setPassword($_ENV['SMTP_PASSWORD'])
+        ;
+
+        // Create the Mailer using your created Transport
+        $mailer = new \Swift_Mailer($transport);
+
+        // Create a message
+        $body = 'Nom : ' . $_POST['identity'] .
+        PHP_EOL . 'Email : ' . $_POST['email'] .
+        PHP_EOL . 'Message : ' . $_POST['message'];
+        $message = (new \Swift_Message('Contact Helixsi.com'))
+        ->setFrom(['julie@helixsi.com' => 'Julie Xaxa'])
+        ->setTo(['julie@helixsi.com' => 'Julie Xaxa'])
+        ->setBody($body)
+        ->setSubject('Formulaire Contact HelixSI')
+        ;
+
+        // Send the message
+        $result = $mailer->send($message);
+        $this->home();
+    }
+    /* préparation fonction pour envoi de mail -
     Vérif données avec if et fonction mail de php ou librairy 'php swift mailer' ou 'php mailer'
-    
+    utiliser error ++ , avec un si error >0 alors
+
     public function contact() {
 
     } */

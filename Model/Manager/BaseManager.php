@@ -11,15 +11,11 @@ abstract class BaseManager
 
     private function dbConnect()
     {
-        $db_host = Request::dbhost();
-        $db_name = Request::dbname();
-        $db_username = Request::dbusername();
-        $db_password = Request::dbpassword();
         if ($this->db === null) {
             $this->db =  new \PDO(
-                'mysql:host=' . $db_host . ';dbname=' . $db_name . ';charset=utf8',
-                $db_username,
-                $db_password,
+                'mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'] . ';charset=utf8',
+                $_ENV['DB_USERNAME'],
+                $_ENV['DB_PASSWORD'],
                 array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION)
             );
         }

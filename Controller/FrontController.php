@@ -49,8 +49,8 @@ class FrontController extends BaseController
     {
         // Create the Transport
         $transport = (new \Swift_SmtpTransport('in-v3.mailjet.com', 587))
-        ->setUsername('0ab50d620e9d80d96436f326b9a7599a')
-        ->setPassword('3778659c74ef03589d7d98f24f1f60a8')
+        ->setUsername($_ENV['SMTP_USERNAME'])
+        ->setPassword($_ENV['SMTP_PASSWORD'])
         ;
 
         // Create the Mailer using your created Transport

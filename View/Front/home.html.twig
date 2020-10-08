@@ -19,20 +19,20 @@
            
         <div class="col-12 col-md-4 border border-primary-light">
           <div class="bs-docs-section">
-            <form>
+            <form method="post" action='?action=contact'>
                 <fieldset>
                   <h3>Contactez-moi</h3>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Nom Prénom</label>
-                    <input type="text" class="form-control" id="nomMessage" required>
+                    <label for="nomMessage">Nom Prénom</label>
+                    <input type="text" class="form-control" id="nomMessage" name='identity' required>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Votre email</label>
-                    <input type="email" class="form-control" id="emailMessage" placeholder="exemple@exemple.com" required>
+                    <label for="emailMessage">Votre email</label>
+                    <input type="email" class="form-control" id="emailMessage" placeholder="exemple@exemple.com" name='email' required>
                   </div>
                   <div class="form-group">
-                    <label for="exampleTextarea">Votre message : </label>
-                    <textarea class="form-control" id="contactMessage" rows="4" required></textarea>
+                    <label for="contactMessage">Votre message : </label>
+                    <textarea class="form-control" id="contactMessage" name='message' rows="4" required></textarea>
                   </div>
                   <button type="submit" class="btn btn-info">Envoyer</button>
                 </fieldset>

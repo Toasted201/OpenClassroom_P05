@@ -13,7 +13,7 @@ class Session
 
     public static function start()
     {
-        if(!self::$instance) {
+        if (!self::$instance) {
             session_start();
         }
 
@@ -25,4 +25,17 @@ class Session
         $_SESSION[$key] = $value;
     }
 
+    public static function setFlash($key, $value)
+    {
+        $_SESSION['flash'][$key] = $value;
+    }
+
+    public static function flash($key)
+    {
+        if (isset($_SESSION['flash'][$key])) {
+            $flash = $_SESSION['flash'][$key];
+            unset($_SESSION['flash'][$key]);
+            return $flash;
+        }
+    }
 }

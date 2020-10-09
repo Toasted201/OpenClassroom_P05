@@ -9,10 +9,16 @@ class FrontController extends BaseController
 {
     public function home()
     {
-
         $manager = new PostManager();
         $postsHome = $manager->getPostsHome();
-        echo $this->render('Front/home.html.twig', ['listPostsHome' => $postsHome]);
+        $successContact = Session::Flash('successContact');
+        $errorContact = Session::Flash('errorContact');
+        echo $this->render(
+            'Front/home.html.twig',
+            ['listPostsHome' => $postsHome,
+            'flashError' => $errorContact,
+            'flashSuccess' => $successContact]
+        );
     }
 
     public function posts()
@@ -47,29 +53,35 @@ class FrontController extends BaseController
 
     public function contact()
     {
+        if (!empty($_POST['identity']) & !empty($_POST['email']) & !empty($_POST['message'])) {
         // Create the Transport
-        $transport = (new \Swift_SmtpTransport('in-v3.mailjet.com', 587))
-        ->setUsername($_ENV['SMTP_USERNAME'])
-        ->setPassword($_ENV['SMTP_PASSWORD'])
-        ;
+            $transport = (new \Swift_SmtpTransport('in-v3.mailjet.com', 587))
+            ->setUsername($_ENV['SMTP_USERNAME'])
+            ->setPassword($_ENV['SMTP_PASSWORD'])
+            ;
 
         // Create the Mailer using your created Transport
-        $mailer = new \Swift_Mailer($transport);
+            $mailer = new \Swift_Mailer($transport);
 
         // Create a message
-        $body = 'Nom : ' . $_POST['identity'] .
-        PHP_EOL . 'Email : ' . $_POST['email'] .
-        PHP_EOL . 'Message : ' . $_POST['message'];
-        $message = (new \Swift_Message('Contact Helixsi.com'))
-        ->setFrom(['julie@helixsi.com' => 'Julie Xaxa'])
-        ->setTo(['julie@helixsi.com' => 'Julie Xaxa'])
-        ->setBody($body)
-        ->setSubject('Formulaire Contact HelixSI')
-        ;
+            $body = 'Nom : ' . $_POST['identity'] .
+            PHP_EOL . 'Email : ' . $_POST['email'] .
+            PHP_EOL . 'Message : ' . $_POST['message'];
+            $message = (new \Swift_Message('Contact Helixsi.com'))
+            ->setFrom(['julie@helixsi.com' => 'Julie Xaxa'])
+            ->setTo(['julie@helixsi.com' => 'Julie Xaxa'])
+            ->setBody($body)
+            ->setSubject('Formulaire Contact HelixSI')
+            ;
 
         // Send the message
-        $result = $mailer->send($message);
-        $this->home();
+            $result = $mailer->send($message);
+            Session::setFlash('successContact', 'Votre message a été envoyé');
+            $this->home();
+        } else {
+            Session::setFlash('errorContact', 'Votre message n\'a pas pu être envoyé');
+            $this->home();
+        }
     }
     /* préparation fonction pour envoi de mail -
     Vérif données avec if et fonction mail de php ou librairy 'php swift mailer' ou 'php mailer'

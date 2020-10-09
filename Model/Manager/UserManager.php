@@ -17,7 +17,8 @@ class UserManager extends BaseManager
 
     public function add(User $user)
     {
-        $req = $this->_db->prepare('INSERT INTO user(first_name, last_name, email, pass, date_creation, userRole) VALUES(:firstName, :lastName, :email, :pass, NOW(), :type)');
+        $req = $this->_db->prepare('INSERT INTO user(first_name, last_name, email, pass, date_creation, userRole) 
+            VALUES(:firstName, :lastName, :email, :pass, NOW(), :type)');
         $req->execute(
             [
                 'firstName' => $user->firstName(),
@@ -60,7 +61,9 @@ class UserManager extends BaseManager
 
     public function update(User $user)
     {
-        $req = $this->_db->prepare('UPDATE INTO user SET firstName = :firstName, last_name = :last_name, pass = :pass, userRole = :userRole WHERE id = :id');
+        $req = $this->_db->prepare('UPDATE INTO user 
+            SET firstName = :firstName, last_name = :last_name, pass = :pass, userRole = :userRole 
+            WHERE id = :id');
         $req->execute(
             [
                 'firstNama' => $user->firstName(),

@@ -9,10 +9,16 @@ class FrontController extends BaseController
 {
     public function home()
     {
-
         $manager = new PostManager();
         $postsHome = $manager->getPostsHome();
-        echo $this->render('Front/home.html.twig', ['listPostsHome' => $postsHome]);
+        $successContact = Session::Flash('successContact');
+        $errorContact = Session::Flash('errorContact');
+        echo $this->render(
+            'Front/home.html.twig',
+            ['listPostsHome' => $postsHome,
+            'flashError' => $errorContact,
+            'flashSuccess' => $successContact]
+        );
     }
 
     public function posts()
@@ -70,9 +76,11 @@ class FrontController extends BaseController
 
         // Send the message
             $result = $mailer->send($message);
+            Session::setFlash('successContact', 'Votre message a été envoyé');
             $this->home();
         } else {
-            echo 'Des paramètres du formulaires sont manquants';
+            Session::setFlash('errorContact', 'Votre message n\'a pas pu être envoyé');
+            $this->home();
         }
     }
     /* préparation fonction pour envoi de mail -

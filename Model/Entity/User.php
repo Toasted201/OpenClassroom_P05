@@ -4,16 +4,16 @@ namespace Model\Entity;
 
 class User
 {
-    private $_id,
-        $_firstName,
-        $_lastName,
-        $_email,
-        $_pass,
-        $_dateCreate,
-        $_dateLastConnexion,
-        $_userRole;
-    private $_posts = [];
-    private $_comments = [];
+    private $id;
+    private $firstName;
+    private $lastName;
+    private $email;
+    private $pass;
+    private $dateCreate;
+    private $dateLastConnexion;
+    private $userRole;
+    private $posts = [];
+    private $comments = [];
 
 
     //implementer le constructeur
@@ -35,37 +35,37 @@ class User
     }
 
     // Getters
-    public function GetId()
+    public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
     public function firstName()
     {
-        return $this->_firstName;
+        return $this->firstName;
     }
     public function lastName()
     {
-        return $this->_lastName;
+        return $this->lastName;
     }
     public function email()
     {
-        return $this->_email;
+        return $this->email;
     }
     public function pass()
     {
-        return $this->_pass;
+        return $this->pass;
     }
     public function dateCreate()
     {
-        return $this->_dateCreate;
+        return $this->dateCreate;
     }
     public function dateLastConnexion()
     {
-        return $this->_dateLastConnexion;
+        return $this->dateLastConnexion;
     }
     public function userRole()
     {
-        return $this->_userRole;
+        return $this->userRole;
     }
 
     // Setters
@@ -73,35 +73,35 @@ class User
     {
         $id = (int) $id;
         if ($id > 0) {
-            $this->_id = $id;
+            $this->id = $id;
         }
     }
 
     public function setFirstName($firstName)
     {
         if (is_string($firstName)) {
-            $this->_fisrtName = $firstName;
+            $this->fisrtName = $firstName;
         }
     }
 
     public function setLasttName($lastName)
     {
         if (is_string($lastName)) {
-            $this->_lastName = $lastName;
+            $this->lastName = $lastName;
         }
     }
 
     public function setEmail($email)
     {
         if (is_string($email)) {
-            $this->_email = $email;
+            $this->email = $email;
         }
     }
 
     public function setPass($pass)
     {
         if (!empty($pass)) {
-            $this->_pass = password_hash($pass, PASSWORD_DEFAULT);
+            $this->pass = password_hash($pass, PASSWORD_DEFAULT);
         }
     }
 
@@ -112,22 +112,22 @@ class User
 
     public function setDateCreate($dateCreate)
     {
-        $this->_dateCreate = $dateCreate;
-    }  // TO DO   
+        $this->dateCreate = $dateCreate;
+    }
 
     public function setDateLastConnexion($dateLastConnexion)
     {
-        $this->_dateLastConnexion = $dateLastConnexion;
-    } //TO DO 
+        $this->dateLastConnexion = $dateLastConnexion;
+    }
 
     public function setUserRole($userRole)
     {
         if (is_string($userRole)) {
-            $this->_userRole = $userRole;
+            $this->userRole = $userRole;
         }
     }
 
-    function isLoggedIn()
+    public function isLoggedIn()
     {
         return !empty($_SESSION['pseudo']);
     }

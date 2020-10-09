@@ -4,13 +4,13 @@ namespace Model\Entity;
 
 class Comment
 {
-    private $_id,
-        $_post_id,
-        $_user_id,
-        $_content,
-        $_dateCreate,
-        $_statut;
-    private $_post = [];
+    private $id;
+    private $post_id;
+    private $user_id;
+    private $content;
+    private $dateCreate;
+    private $statut;
+    private $post = [];
     //private $_user = [];
 
     //implementer le constructeur
@@ -34,27 +34,27 @@ class Comment
     // Getters
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
-    public function post_id()
+    public function postId()
     {
-        return $this->_post_id;
+        return $this->post_id;
     }
-    public function author()
+    public function userId()
     {
-        return $this->_author;
+        return $this->user_id;
     }
     public function content()
     {
-        return $this->_content;
+        return $this->content;
     }
     public function dateCreate()
     {
-        return $this->_dateCreate;
+        return $this->dateCreate;
     }
     public function statut()
     {
-        return $this->_statut;
+        return $this->statut;
     }
 
 
@@ -64,40 +64,40 @@ class Comment
     {
         $id = (int) $id;
         if ($id > 0) {
-            $this->_id = $id;
+            $this->id = $id;
         }
     }
 
     public function setPost($post)
     {
         if (is_int($post)) {
-            $this->_post = $post;
+            $this->post = $post;
         }
     }
 
     public function setAuthor($author)
     {
         if (is_int($author)) {
-            $this->_author = $author;
+            $this->author = $author;
         }
     }
 
     public function setContent($content)
     {
         if (is_string($content)) {
-            $this->_content = $content;
+            $this->content = $content;
         }
     }
 
     public function setDateCreate($dateCreate)
     {
-        $this->_dateCreate = $dateCreate;
+        $this->dateCreate = $dateCreate;
     }
 
     public function setStatut($statut)
     {
         if (is_string($statut)) {
-            $this->_statut = $statut;
+            $this->statut = $statut;
         }
     }
 }

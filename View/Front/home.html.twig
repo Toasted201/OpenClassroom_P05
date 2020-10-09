@@ -37,9 +37,19 @@
                   <button type="submit" class="btn btn-info">Envoyer</button>
                 </fieldset>
               </form>
+              {% if flashError != false  %}
+                <div class="alert alert-dismissible alert-secondary">
+                  {{ flashError }}
+                </div>
+              {% else %}
+                  {% if flashSuccess != false  %}
+                    <div class="alert alert-dismissible alert-primary">
+                      {{ flashSuccess }}
+                    </div>
+                    {% endif %}
+               {% endif %}     
           </div>
         </div>
-
     </div>
 {% endblock %}
 

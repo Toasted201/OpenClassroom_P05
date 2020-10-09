@@ -4,13 +4,13 @@ namespace Model\Entity;
 
 class Post
 {
-    private $_id,
-            $_author,
-            $_content,
-            $_title,
-            $_publish,
-            $_dateCreate,
-            $_dateChange;
+    private $id;
+    private $author;
+    private $content;
+    private $title;
+    private $publish;
+    private $dateCreate;
+    private $dateChange;
     //private $_posts = [];
     //private $_comments = [];
 
@@ -34,31 +34,31 @@ class Post
 
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
     public function author()
     {
-        return $this->_author;
+        return $this->author;
     }
     public function content()
     {
-        return $this->_content;
+        return $this->content;
     }
     public function title()
     {
-        return $this->_title;
+        return $this->title;
     }
     public function publish()
     {
-        return $this->_publish;
+        return $this->publish;
     }
     public function dateCreate()
     {
-        return $this->_dateCreate;
+        return $this->dateCreate;
     }
     public function dateChange()
     {
-        return $this->_dateChange;
+        return $this->dateChange;
     }
 
 
@@ -68,45 +68,45 @@ class Post
     {
         $id = (int) $id;
         if ($id > 0) {
-            $this->_id = $id;
+            $this->id = $id;
         }
     }
 
     public function setAuthor($author)
     {
         if (is_string($author)) {
-            $this->_author = $author;
+            $this->author = $author;
         }
     }
 
     public function setContent($content)
     {
         if (is_string($content)) {
-            $this->_content = $content;
+            $this->content = $content;
         }
     }
 
     public function setTitle($title)
     {
         if (is_string($title)) {
-            $this->_title = $title;
+            $this->title = $title;
         }
     }
 
     public function setPublish($publish)
     {
         if (is_bool($publish)) {
-            $this->_publish = $publish;
+            $this->publish = $publish;
         }
     }
 
     public function setDateCreate($dateCreate)
     {
-        $this->_dateCreate = $dateCreate;
-    } //TO DO
+        $this->dateCreate = $dateCreate;
+    }
 
     public function setDateChange($dateChange)
     {
-        $this->_dateChange = $dateChange;
-    } //TO DO
+        $this->dateChange = $dateChange;
+    }
 }

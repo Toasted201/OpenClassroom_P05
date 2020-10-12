@@ -77,19 +77,23 @@ class FrontController extends BaseController
 
     public function connexion()
     {
-        $mail = Request::post('mailConnect'); //Je définie une variable $mail et lui attribue le résultat de la fonction Post (=méthode de la classe Requete) avec le paramètre 'mailconnect'.
-        $pass = Request::post('passConnect'); // idem
-        $userManager = new UserManager(); // je crée une instance de la classe UserManager, que je nomme $userManager
-        $user = $userManager->getByMail($mail); // J'invoque la méhode getByMail (avec le paramètre $mail) sur l'objet UserManager . Je place le résultat dans une variable $user
+        $mail = Request::post('mailConnect');
+        $pass = Request::post('passConnect');
+        $userManager = new UserManager();
+        $user = $userManager->getByMail($mail);
+        $errorMessage = null;
+        $prenom = null;
         if ($user === null) {
-            echo 'le mail n\'existe pas';
+            $errorMessage = 'le mail n\'existe pas';
+            $this->authentification();
         } else {
             $isPasswordCorrect = password_verify($pass, $user->pass());
             if (!$isPasswordCorrect) {
-                echo 'le mot de passe est incorrect';
+                $errorMessage = 'le mot de passe est incorrect';
+                $this->authentification();
             } else {
-                $prenom = Session::set('firstName', $user->firstName()); // J'appelle la fonction static Set de la classe Session avec deux paramètres (1/ la clé de _Session 2/la valeur que je veut y mettre -> j'invoque la méthode firstName sur l'objet $user)
-                return $prenom;
+                $prenom = Session::set('firstName', $user->firstName());
+                $this->home();
             }
         }
     }

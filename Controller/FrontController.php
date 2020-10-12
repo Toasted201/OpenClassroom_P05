@@ -30,9 +30,9 @@ class FrontController extends BaseController
         echo $this->render('Front/post.html.twig', ['post' => $post]);
     }
 
-    public function connexion()
+    public function authentification()
     {
-        echo $this->render('Front/connexion.html.twig', []);
+        echo $this->render('Front/authentification.html.twig', []);
     }
 
     public function curriculum()

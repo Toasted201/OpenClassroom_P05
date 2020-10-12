@@ -40,7 +40,12 @@ class FrontController extends BaseController
 
     public function authentification()
     {
-        echo $this->render('Front/authentification.html.twig', []);
+        
+        $errorConnexion = Session::Flash('errorConnexion');
+        echo $this->render(
+            'Front/authentification.html.twig',
+            ['flashError' => $errorConnexion]
+        );
     }
 
     public function curriculum()
@@ -96,12 +101,12 @@ class FrontController extends BaseController
         $errorMessage = null;
         $prenom = null;
         if ($user === null) {
-            $errorMessage = 'le mail n\'existe pas';
+            Session::setFlash('errorConnexion', 'Le mail n\'existe pas');
             $this->authentification();
         } else {
             $isPasswordCorrect = password_verify($pass, $user->pass());
             if (!$isPasswordCorrect) {
-                $errorMessage = 'le mot de passe est incorrect';
+                Session::setFlash('errorConnexion', 'Le mot de passe est incorrect');
                 $this->authentification();
             } else {
                 $prenom = Session::set('firstName', $user->firstName());

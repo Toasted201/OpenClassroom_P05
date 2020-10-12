@@ -19,6 +19,11 @@
                     <button type="submit" class="btn btn-info float-right">Connexion</button>
                 </fieldset>
             </form>
+            {% if flashError != false  %}
+                <div class="alert alert-dismissible alert-secondary">
+                  {{ flashError }}
+                </div>
+            {% endif %}   
             <!--mot de passe oublié?-->
         </div>
         <div class="col-12 col-md-6 border border-primary-light p-3">

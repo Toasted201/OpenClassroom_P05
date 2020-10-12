@@ -6,18 +6,10 @@ use Model\Entity\User;
 
 class UserManager extends BaseManager
 {
-    /*
-  private $_db; // Instance de PDO.
-
-  public function __construct($db)
-  {
-    $this->setDb($db);
-  }
-  */
-
     public function add(User $user)
     {
-        $req = $this->_db->prepare('INSERT INTO user(first_name, last_name, email, pass, date_creation, userRole) 
+        $db = $this->getDb();
+        $req = $db->prepare('INSERT INTO user(first_name, last_name, email, pass, date_creation, userRole) 
             VALUES(:firstName, :lastName, :email, :pass, NOW(), :type)');
         $req->execute(
             [
@@ -37,21 +29,46 @@ class UserManager extends BaseManager
 
     public function delete(User $user)
     {
-        $this->_db->execute('DELETE FROM user WHERE id = ' . $user->getId());
+        $db = $this->getDb();
+        $db->execute('DELETE FROM user WHERE id = ' . $user->getId());
     }
 
-    public function get($id)
+    public function getById($id): ?User
     {
-        $req = $this->_db->query('SELECT id, nom, degats FROM user WHERE id=' . $id);
+        $db = $this->getDb();
+        $req = $db->prepare('SELECT * FROM user WHERE id= :id');
+        $req->execute(array(
+            'id' => $id
+        ));
         $data = $req->fetch();
-        return new User($data);
+        if ($data === false) {
+            return null;
+        } else {
+            return new User($data);
+        };
+    }
+
+    public function getByMail($mail): ?User
+    {
+        $db = $this->getDb();
+        $req = $db->prepare('SELECT * FROM user WHERE email = :email');
+        $req->execute(
+            ['email' => $mail]
+        );
+        $data = $req->fetch();
+        if ($data === false) {
+            return null;
+        } else {
+            return new User($data);
+        }
     }
 
 
-    public function getList()
+    public function getList(): array
     {
+        $db = $this->getDb();
         $users = [];
-        $req = $this->_db->query('SELECT * FROM user');
+        $req = $db->query('SELECT * FROM user');
         while ($data = $req->fetch()) {
             $users[] = new User($data);
         }
@@ -61,7 +78,8 @@ class UserManager extends BaseManager
 
     public function update(User $user)
     {
-        $req = $this->_db->prepare('UPDATE INTO user 
+        $db = $this->getDb();
+        $req = $db->prepare('UPDATE INTO user 
             SET firstName = :firstName, last_name = :last_name, pass = :pass, userRole = :userRole 
             WHERE id = :id');
         $req->execute(
@@ -73,10 +91,4 @@ class UserManager extends BaseManager
             ]
         );
     }
-
-    /*
-  public function setDb(PDO $db){
-    $this->_db = $db;
-  }
-  */
 }

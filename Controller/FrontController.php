@@ -4,6 +4,8 @@ namespace Controller;
 
 use Manager\PostManager;
 use App\Session;
+use App\Request;
+use Manager\UserManager;
 
 class FrontController extends BaseController
 {
@@ -36,9 +38,9 @@ class FrontController extends BaseController
         echo $this->render('Front/post.html.twig', ['post' => $post]);
     }
 
-    public function connexion()
+    public function authentification()
     {
-        echo $this->render('Front/connexion.html.twig', []);
+        echo $this->render('Front/authentification.html.twig', []);
     }
 
     public function curriculum()
@@ -83,11 +85,28 @@ class FrontController extends BaseController
             $this->home();
         }
     }
-    /* préparation fonction pour envoi de mail -
-    Vérif données avec if et fonction mail de php ou librairy 'php swift mailer' ou 'php mailer'
-    utiliser error ++ , avec un si error >0 alors
+    //TO DO utiliser error ++ , avec un si error >0 alors //
 
-    public function contact() {
-
-    } */
+    public function connexion()
+    {
+        $mail = Request::post('mailConnect');
+        $pass = Request::post('passConnect');
+        $userManager = new UserManager();
+        $user = $userManager->getByMail($mail);
+        $errorMessage = null;
+        $prenom = null;
+        if ($user === null) {
+            $errorMessage = 'le mail n\'existe pas';
+            $this->authentification();
+        } else {
+            $isPasswordCorrect = password_verify($pass, $user->pass());
+            if (!$isPasswordCorrect) {
+                $errorMessage = 'le mot de passe est incorrect';
+                $this->authentification();
+            } else {
+                $prenom = Session::set('firstName', $user->firstName());
+                $this->home();
+            }
+        }
+    }
 }

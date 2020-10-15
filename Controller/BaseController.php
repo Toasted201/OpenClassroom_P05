@@ -2,6 +2,9 @@
 
 namespace Controller;
 
+use App\Session;
+use Model\Entity\User;
+
 abstract class BaseController
 {
     private $twig = null;
@@ -16,5 +19,16 @@ abstract class BaseController
             ]);
         }
         return $this->twig->render($masque, $parametres);
+    }
+
+    protected function getConnectedUser(): ?User
+    {
+
+        if (empty(Session::get('connectedUser'))) {
+            $connectedUser = null;
+        } else {
+            $connectedUser = unserialize(Session::get('connectedUser'));
+        }
+        return $connectedUser;
     }
 }

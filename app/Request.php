@@ -4,7 +4,7 @@ namespace App;
 
 class Request
 {
-    public static function get(string $key)
+    public static function getData(string $key)
     {
         if (isset($_GET[$key])) {
             return $_GET[$key];
@@ -12,9 +12,12 @@ class Request
         return '';
     }
 
-    public static function post(string $key)
+    public static function postData(string $key)
     {
-        return $_POST[$key];
+        if (isset($_POST[$key])) {
+            return $_POST[$key];
+        }
+        return '';
     }
 
     public static function method()

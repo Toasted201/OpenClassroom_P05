@@ -16,7 +16,8 @@ class User
     private $comments = [];
 
 
-    //implementer le constructeur
+    
+    //implementer le constructeur - fonction appelée quand on fait un new User
     public function __construct($datas)
     {
         $this->hydrate($datas);
@@ -80,7 +81,7 @@ class User
     public function setFirstName($firstName)
     {
         if (is_string($firstName)) {
-            $this->fisrtName = $firstName;
+            $this->firstName = $firstName;
         }
     }
 
@@ -129,6 +130,6 @@ class User
 
     public function isLoggedIn()
     {
-        return !empty($_SESSION['pseudo']);
+        return !empty($_SESSION['firstName']);
     }
 }

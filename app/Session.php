@@ -20,6 +20,16 @@ class Session
         session_regenerate_id();
     }
 
+    public static function get(string $key)
+    {
+        return $_SESSION[$key] ?? null;
+    }
+
+    public static function getGlobals()
+    {
+        return $_SESSION;
+    }
+
     public static function set(string $key, $value)
     {
         $_SESSION[$key] = $value;

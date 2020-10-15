@@ -6,6 +6,10 @@ use Model\Entity\User;
 
 class UserManager extends BaseManager
 {
+    public function __construct()
+    {
+    }
+
     public function add(User $user)
     {
         $db = $this->getDb();
@@ -54,6 +58,24 @@ class UserManager extends BaseManager
         $req = $db->prepare('SELECT * FROM user WHERE email = :email');
         $req->execute(
             ['email' => $mail]
+        );
+        
+        $data = $req->fetch();
+
+        if ($data === false) {
+            return null;
+        } else {
+            $user = new User($data);
+            return $user;
+        }
+    }
+    
+    public function getFromSession($idSession): ?User
+    {
+        $db = $this->getDb();
+        $req = $db->prepare('SELECT * FROM user WHERE id = :id');
+        $req->execute(
+            ['id' => $idSession]
         );
         $data = $req->fetch();
         if ($data === false) {

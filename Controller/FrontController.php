@@ -6,6 +6,7 @@ use Manager\PostManager;
 use App\Session;
 use App\Request;
 use Manager\UserManager;
+use Model\Entity\User;
 
 class FrontController extends BaseController
 {
@@ -15,11 +16,17 @@ class FrontController extends BaseController
         $postsHome = $manager->getPostsHome();
         $successContact = Session::Flash('successContact');
         $errorContact = Session::Flash('errorContact');
+        $connectedUser = $this->getConnectedUser();
+        $firstName = null;
+        if (!empty($connectedUser)) {
+            $firstName = $connectedUser->firstName();
+        }
         echo $this->render(
             'Front/home.html.twig',
             ['listPostsHome' => $postsHome,
             'flashError' => $errorContact,
-            'flashSuccess' => $successContact]
+            'flashSuccess' => $successContact,
+            'firstName' => $firstName]
         );
     }
 
@@ -94,22 +101,20 @@ class FrontController extends BaseController
 
     public function connexion()
     {
-        $mail = Request::post('mailConnect');
-        $pass = Request::post('passConnect');
+        $mail = Request::postData('mailConnect');
+        $pass = Request::postData('passConnect');
         $userManager = new UserManager();
         $user = $userManager->getByMail($mail);
-        $errorMessage = null;
-        $prenom = null;
         if ($user === null) {
             Session::setFlash('errorConnexion', 'Le mail n\'existe pas');
             $this->authentification();
         } else {
             $isPasswordCorrect = password_verify($pass, $user->pass());
             if (!$isPasswordCorrect) {
-                Session::setFlash('errorConnexion', 'Le mot de passe est incorrect');
+                Session::setFlash('errorConnexion', 'Le mot de passe est incorrect ');
                 $this->authentification();
             } else {
-                $prenom = Session::set('firstName', $user->firstName());
+                Session::set('connectedUser', serialize($user));
                 $this->home();
             }
         }

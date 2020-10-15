@@ -19,16 +19,18 @@ abstract class BaseController
             ]);
         }
         return $this->twig->render($masque, $parametres);
+    //TODO new TigFunction pour les flash??
     }
 
+    /* methode mise dans Session
     protected function getConnectedUser(): ?User
     {
 
-        if (empty(Session::get('connectedUser'))) {
+        if (empty(Session::connectedUser())) {
             $connectedUser = null;
         } else {
             $connectedUser = unserialize(Session::get('connectedUser'));
         }
         return $connectedUser;
-    }
+    }*/
 }

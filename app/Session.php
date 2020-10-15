@@ -2,13 +2,15 @@
 
 namespace App;
 
+use Model\Entity\User;
+
 class Session
 {
     private static $instance = null;
 
-    public static function __callStatic($name, $arguments)
+    public static function __callStatic($name, $arguments) //fonction appelée si on ne précise pas de fonction
     {
-        return isset($_SESSION[$name]) ? $_SESSION[$name] : 'undefined';
+        return isset($_SESSION[$name]) ? $_SESSION[$name] : null;
     }
 
     public static function start()
@@ -47,5 +49,15 @@ class Session
             unset($_SESSION['flash'][$key]);
             return $flash;
         }
+    }
+
+    public static function auth(): ?User
+    {
+        if (empty(Session::connectedUser())) {
+            $connectedUser = null;
+        } else {
+            $connectedUser = unserialize(Session::get('connectedUser'));
+        }
+        return $connectedUser;
     }
 }

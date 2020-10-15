@@ -128,8 +128,8 @@ class User
         }
     }
 
-    public function isLoggedIn()
+    /*public function isLoggedIn()
     {
         return !empty($_SESSION['firstName']);
-    }
+    }*/
 }

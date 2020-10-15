@@ -10,7 +10,7 @@ class UserManager extends BaseManager
     {
     }
 
-    public function add(User $user)
+    public function add(User $user) // TODO : revoir cette méthode, hydrate que sur id??
     {
         $db = $this->getDb();
         $req = $db->prepare('INSERT INTO user(first_name, last_name, email, pass, date_creation, userRole) 
@@ -37,7 +37,7 @@ class UserManager extends BaseManager
         $db->execute('DELETE FROM user WHERE id = ' . $user->getId());
     }
 
-    public function getById($id): ?User
+    public function getById($id): ?User //TODO optionnel : req->setFetchMode pour raccourci
     {
         $db = $this->getDb();
         $req = $db->prepare('SELECT * FROM user WHERE id= :id');

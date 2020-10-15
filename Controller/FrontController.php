@@ -16,8 +16,8 @@ class FrontController extends BaseController
         $postsHome = $manager->getPostsHome();
         $successContact = Session::Flash('successContact');
         $errorContact = Session::Flash('errorContact');
-        $connectedUser = $this->getConnectedUser();
         $firstName = null;
+        $connectedUser = Session::auth();
         if (!empty($connectedUser)) {
             $firstName = $connectedUser->firstName();
         }
@@ -65,19 +65,19 @@ class FrontController extends BaseController
         echo $this->render('Admin/admin.html.twig', []);
     }
 
-    public function contact()
+    public function contact() //TODO optionnel : "à mettre dans un service"
     {
-        if (!empty($_POST['identity']) & !empty($_POST['email']) & !empty($_POST['message'])) {
-        // Create the Transport
+        if (!empty($_POST['identity']) and !empty($_POST['email']) and !empty($_POST['message'])) {
+        // = Create the Transport
             $transport = (new \Swift_SmtpTransport('in-v3.mailjet.com', 587))
             ->setUsername($_ENV['SMTP_USERNAME'])
             ->setPassword($_ENV['SMTP_PASSWORD'])
             ;
 
-        // Create the Mailer using your created Transport
+        // = Create the Mailer using your created Transport
             $mailer = new \Swift_Mailer($transport);
 
-        // Create a message
+        // = Create a message
             $body = 'Nom : ' . $_POST['identity'] .
             PHP_EOL . 'Email : ' . $_POST['email'] .
             PHP_EOL . 'Message : ' . $_POST['message'];
@@ -88,7 +88,8 @@ class FrontController extends BaseController
             ->setSubject('Formulaire Contact HelixSI')
             ;
 
-        // Send the message
+        // = Send the message
+        //TODO optionnel : doublon code ci-dessous à améliorer
             $result = $mailer->send($message);
             Session::setFlash('successContact', 'Votre message a été envoyé');
             $this->home();
@@ -97,7 +98,7 @@ class FrontController extends BaseController
             $this->home();
         }
     }
-    //TO DO utiliser error ++ , avec un si error >0 alors //
+    //TODO utiliser error ++ , avec un si error >0 alors //
 
     public function connexion()
     {

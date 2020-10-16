@@ -28,7 +28,7 @@
                   </li>
                 <li class="nav-item">
                     {% if firstName is empty %}<a class="nav-link" href="?action=authentification">Connexion <span class="sr-only">(current)</span></a>
-                    {% else %} <a class="nav-link"> Déconnexion </a>
+                    {% else %} <a class="nav-link" href="?action=deconnexion"> Déconnexion ( {{firstName}}) </a>
                     {% endif %} 
                 </li>
 

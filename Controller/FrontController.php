@@ -114,4 +114,10 @@ class FrontController extends BaseController
             }
         }
     }
+
+    public function deconnexion()
+    {
+        Session::stop();
+        $this->home();
+    }
 }

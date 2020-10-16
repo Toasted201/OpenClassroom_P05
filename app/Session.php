@@ -22,6 +22,13 @@ class Session
         session_regenerate_id();
     }
 
+    public static function stop()
+    {
+        session_unset();
+        session_destroy();
+        unset($_SESSION['connectedUser']);
+    }
+
     public static function get(string $key)
     {
         return $_SESSION[$key] ?? null;

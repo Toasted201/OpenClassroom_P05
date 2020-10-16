@@ -18,8 +18,20 @@ abstract class BaseController
                 'auto_reload' => true,
             ]);
         }
+        $firstName = null;
+        $connectedUser = Session::auth();
+        if (!empty($connectedUser)) {
+            $firstName = $connectedUser->firstName();
+        }
+        $parametres['firstName'] = $firstName;
+        $userRole = null;
+        $connectedUser = Session::auth();
+        if (!empty($connectedUser)) {
+            $userRole = $connectedUser->userRole();
+        }
+        $parametres['userRole'] = $userRole;
         return $this->twig->render($masque, $parametres);
-    //TODO new TigFunction pour les flash??
+    //TODO new TwigFunction pour les flash??
     }
 
     /* methode mise dans Session

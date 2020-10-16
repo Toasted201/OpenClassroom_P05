@@ -5,8 +5,8 @@ namespace Model\Entity;
 class Comment
 {
     private $id;
-    private $post_id;
-    private $user_id;
+    private $postId;
+    private $userId;
     private $content;
     private $dateCreate;
     private $statut;
@@ -38,11 +38,11 @@ class Comment
     }
     public function postId()
     {
-        return $this->post_id;
+        return $this->postId;
     }
     public function userId()
     {
-        return $this->user_id;
+        return $this->userId;
     }
     public function content()
     {
@@ -75,10 +75,10 @@ class Comment
         }
     }
 
-    public function setAuthor($author)
+    public function setUserId($userId)
     {
-        if (is_int($author)) {
-            $this->author = $author;
+        if (is_int($userId)) {
+            $this->userId = $userId;
         }
     }
 

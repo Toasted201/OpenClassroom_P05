@@ -21,9 +21,6 @@
             <form method="post" action='?action=contact'>
                 <fieldset>
                   <h3>Contactez-moi</h3>
-                  {% if firstName is empty %} Connexion 
-                  {% else %} {{ firstName }}
-                  {% endif %}  
                   <div class="form-group">
                     <label for="nomMessage">Nom Prénom</label>
                     <input type="text" class="form-control" id="nomMessage" name='identity' required>

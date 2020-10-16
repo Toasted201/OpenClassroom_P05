@@ -13,7 +13,7 @@ class UserManager extends BaseManager
     public function add(User $user) // TODO : revoir cette méthode, hydrate que sur id??
     {
         $db = $this->getDb();
-        $req = $db->prepare('INSERT INTO user(first_name, last_name, email, pass, date_creation, userRole) 
+        $req = $db->prepare('INSERT INTO user(firstName, lastName, email, pass, dateCreation, userRole) 
             VALUES(:firstName, :lastName, :email, :pass, NOW(), :type)');
         $req->execute(
             [
@@ -26,7 +26,7 @@ class UserManager extends BaseManager
         );
 
         $user->hydrate(
-            ['id' => $this->_db->LastInsertId()]
+            ['id' => $this->db->LastInsertId()]
         );
     }
 
@@ -102,11 +102,11 @@ class UserManager extends BaseManager
     {
         $db = $this->getDb();
         $req = $db->prepare('UPDATE INTO user 
-            SET firstName = :firstName, last_name = :last_name, pass = :pass, userRole = :userRole 
+            SET firstName = :firstName, lastName = :lastName, pass = :pass, userRole = :userRole 
             WHERE id = :id');
         $req->execute(
             [
-                'firstNama' => $user->firstName(),
+                'firstName' => $user->firstName(),
                 'lastName' => $user->lastName(),
                 'pass' => $user->pass(),
                 'role' => $user->userRole()

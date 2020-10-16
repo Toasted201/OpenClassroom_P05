@@ -16,17 +16,11 @@ class FrontController extends BaseController
         $postsHome = $manager->getPostsHome();
         $successContact = Session::Flash('successContact');
         $errorContact = Session::Flash('errorContact');
-        $firstName = null;
-        $connectedUser = Session::auth();
-        if (!empty($connectedUser)) {
-            $firstName = $connectedUser->firstName();
-        }
         echo $this->render(
             'Front/home.html.twig',
             ['listPostsHome' => $postsHome,
             'flashError' => $errorContact,
-            'flashSuccess' => $successContact,
-            'firstName' => $firstName]
+            'flashSuccess' => $successContact]
         );
     }
 

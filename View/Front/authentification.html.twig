@@ -53,5 +53,10 @@
                     <button type="submit" class="btn btn-info float-right">Inscription</button>
                 </fieldset>
             </form>
+            {% if flashErrorInscription != false  %}
+                <div class="alert alert-dismissible alert-secondary">
+                  {{ flashErrorInscription }}
+                </div>
+            {% endif %}   
         </div>    
 {% endblock %}

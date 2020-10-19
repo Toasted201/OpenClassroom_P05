@@ -15,6 +15,7 @@ $router->pushGet('posts', [FrontController::class, 'posts']);
 $router->pushGet('post', [FrontController::class, 'post', ['postId']]);
 $router->pushGet('authentification', [FrontController::class, 'authentification']);
 $router->pushGet('deconnexion', [FrontController::class, 'deconnexion']);
+$router->pushPost('inscription', [FrontController::class, 'inscription']);
 $router->pushPost('connexion', [FrontController::class, 'connexion']);
 $router->pushGet('curriculum', [FrontController::class, 'curriculum']);
 $router->pushGet('admin', [FrontController::class, 'admin']);

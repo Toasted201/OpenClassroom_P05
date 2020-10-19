@@ -6,23 +6,22 @@ use Model\Entity\User;
 
 class UserManager extends BaseManager
 {
-    public function add(User $user)
+    public function __construct()
+    {
+    }
+
+    public function add($userNew) //TODO Optionnel : utiliser class pour écrire
     {
         $db = $this->getDb();
-        $req = $db->prepare('INSERT INTO user(first_name, last_name, email, pass, date_creation, userRole) 
-            VALUES(:firstName, :lastName, :email, :pass, NOW(), :type)');
+        $req = $db->prepare('INSERT INTO user(firstName, lastName, email, pass, dateCreate, userRole) 
+            VALUES(:firstName, :lastName, :email, :pass, NOW(), "visiteur")');
         $req->execute(
             [
-                'firstName' => $user->firstName(),
-                'lastName' => $user->lastName(),
-                'email' => $user->email(),
-                'pass' => $user->pass(),
-                'userRole' => $user->userRole()
+                'firstName' => $userNew['firstName'],
+                'lastName' => $userNew['lastName'],
+                'email' => $userNew['email'],
+                'pass' => $userNew['pass'],
             ]
-        );
-
-        $user->hydrate(
-            ['id' => $this->_db->LastInsertId()]
         );
     }
 
@@ -33,7 +32,7 @@ class UserManager extends BaseManager
         $db->execute('DELETE FROM user WHERE id = ' . $user->getId());
     }
 
-    public function getById($id): ?User
+    public function getById($id): ?User //TODO optionnel : req->setFetchMode pour raccourci
     {
         $db = $this->getDb();
         $req = $db->prepare('SELECT * FROM user WHERE id= :id');
@@ -54,6 +53,24 @@ class UserManager extends BaseManager
         $req = $db->prepare('SELECT * FROM user WHERE email = :email');
         $req->execute(
             ['email' => $mail]
+        );
+        
+        $data = $req->fetch();
+
+        if ($data === false) {
+            return null;
+        } else {
+            $user = new User($data);
+            return $user;
+        }
+    }
+    
+    public function getFromSession($idSession): ?User
+    {
+        $db = $this->getDb();
+        $req = $db->prepare('SELECT * FROM user WHERE id = :id');
+        $req->execute(
+            ['id' => $idSession]
         );
         $data = $req->fetch();
         if ($data === false) {
@@ -80,11 +97,11 @@ class UserManager extends BaseManager
     {
         $db = $this->getDb();
         $req = $db->prepare('UPDATE INTO user 
-            SET firstName = :firstName, last_name = :last_name, pass = :pass, userRole = :userRole 
+            SET firstName = :firstName, lastName = :lastName, pass = :pass, userRole = :userRole 
             WHERE id = :id');
         $req->execute(
             [
-                'firstNama' => $user->firstName(),
+                'firstName' => $user->firstName(),
                 'lastName' => $user->lastName(),
                 'pass' => $user->pass(),
                 'role' => $user->userRole()

@@ -21,11 +21,11 @@ class PostManager extends BaseManager
         $req = $db->query('SELECT id, 
             title, 
             chapo, 
-            user_id,
+            userId,
             CASE 
-                WHEN date_change IS null THEN DATE_FORMAT(date_create, \'%d/%m/%Y\') 
-                ELSE DATE_FORMAT(date_change, \'%d/%m/%Y\') END AS date_last
-            FROM post ORDER BY date_last DESC');
+                WHEN dateChange IS null THEN DATE_FORMAT(dateCreate, \'%d/%m/%Y\') 
+                ELSE DATE_FORMAT(dateChange, \'%d/%m/%Y\') END AS dateLast
+            FROM post ORDER BY dateLast DESC');
         $posts = $req->fetchAll();
         $req->closeCursor();
         return $posts;
@@ -38,9 +38,9 @@ class PostManager extends BaseManager
             title, 
             content, 
             chapo, 
-            user_id , 
-            DATE_FORMAT(date_create, \'%d/%m/%Y à %Hh%imin%ss\') AS date_create_fr 
-            FROM post ORDER BY date_create DESC LIMIT 3');
+            userId , 
+            DATE_FORMAT(dateCreate, \'%d/%m/%Y à %Hh%imin%ss\') AS dateCreateFr 
+            FROM post ORDER BY dateCreate DESC LIMIT 3');
         $posts = $req->fetchAll();
         $req->closeCursor();
         return $posts;
@@ -53,8 +53,8 @@ class PostManager extends BaseManager
             title, 
             content, 
             chapo, 
-            user_id, 
-            DATE_FORMAT(date_create, \'%d/%m/%Y à %Hh%imin%ss\') AS date_create_fr 
+            userId, 
+            DATE_FORMAT(dateCreate, \'%d/%m/%Y à %Hh%imin%ss\') AS dateCreateFr 
             FROM post WHERE id = :id');
         $req->execute(
             ['id' => $postId]

@@ -27,8 +27,11 @@
                     <a class="nav-link" href="?action=curriculum">Mon CV<span class="sr-only">(current)</span></a>
                   </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="?action=authentification">Connexion <span class="sr-only">(current)</span></a>
+                    {% if firstName is empty %}<a class="nav-link" href="?action=authentification">Connexion <span class="sr-only">(current)</span></a>
+                    {% else %} <a class="nav-link" href="?action=deconnexion"> Déconnexion ( {{firstName}}) </a>
+                    {% endif %} 
                 </li>
+
             </ul>
         </div>
     </div>
@@ -57,9 +60,11 @@
     </div>    
     <div class="bs-component p-4"> <!--footer-->
         <div class="row">
+           {% if userRole == 'admin' %}
            <div class="col-4">
                <a button type="button" class="btn btn-warning" href="?action=admin">Admin</button></a>
             </div>
+            {% endif %} 
             <div class="col-8">
                <p class="text-right">
                     <a href="https://github.com/Toasted201" target="_blank"><img src="img/github.png" alt="Logo GitHub" width="40" height="40"></img></a>

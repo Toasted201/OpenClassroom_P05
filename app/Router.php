@@ -19,7 +19,7 @@ class Router
 
     public function run()
     {
-        $url_action = Request::get('action'); //on récupère l'action dans l'url
+        $url_action = Request::getData('action'); //on récupère l'action dans l'url
         $route_found = false; //nouvelle variable de vérification
         $server_method = Request::method(); // on récupere la method d'envoi des données
         if ($server_method == 'GET') { // on associe une variable [contenant infos] en fonction du résultat à $routes
@@ -42,7 +42,7 @@ class Router
                     $method_params = [];
                     foreach ($params as $param) {
                         $url_param = null;
-                        $url_param = Request::get($param);
+                        $url_param = Request::getData($param);
                         if (isset($url_param)) {
                             $method_params[] = $url_param;
                         } else {

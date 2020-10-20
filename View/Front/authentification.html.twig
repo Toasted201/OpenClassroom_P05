@@ -1,0 +1,62 @@
+{% extends "Template/base.html.twig" %}
+
+{% block title %}Authentification{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 col-md-6 border border-primary-light p-3">
+            <form method="post" action='?action=connexion'>
+                <fieldset>
+                    <h4>Déjà membre? Connectez-vous</h4>
+                    <div class="form-group">
+                        <label for="emailMessage">Votre email</label>
+                        <input type="email" class="form-control" id="mailConnect" placeholder="exemple@exemple.com" name='mailConnect' required>
+                    </div>
+                    <div class="form-group">
+                        <label for="passConnect">Votre mot de passe</label>
+                        <input type="password" class="form-control" id="passConnect" name ="passConnect" maxlenght="255" cols="50" required>
+                    </div>  
+                    <button type="submit" class="btn btn-info float-right">Connexion</button>
+                </fieldset>
+            </form>
+            {% if flashError != false  %}
+                <div class="alert alert-dismissible alert-secondary">
+                  {{ flashError }}
+                </div>
+            {% endif %}   
+            <!--mot de passe oublié?-->
+        </div>
+        <div class="col-12 col-md-6 border border-primary-light p-3">
+            <form method="post" action='?action=inscription'>
+                <fieldset>
+                    <h4>Nouveau ici ? Inscrivez-vous</h4>
+                    <div class="form-group">
+                        <label for="firstName">Votre prénom</label>
+                        <input type="text" class="form-control" id="maiFirstName" name='firstNameInscription' maxlenght="255" cols="50" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Votre nom</label>
+                        <input type="text" class="form-control" id="maiLastName" name='lastNameInscription' maxlenght="255" cols="50" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailMessage">Votre email</label>
+                        <input type="email" class="form-control" id="mailInscription" placeholder="exemple@exemple.com" name='mailInscription' required>
+                    </div>
+                    <div class="form-group">
+                        <label for="passConnect">Votre mot de passe</label>
+                        <input type="password" class="form-control" id="passInscription" name ="passInscription" maxlenght="255" cols="50" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="passConnect">Votre mot de passe</label>
+                        <input type="password" class="form-control" id="passInscriptionCtrl" name ="passInscriptionCtrl" maxlenght="255" cols="50" required>
+                    </div>   
+                    <button type="submit" class="btn btn-info float-right">Inscription</button>
+                </fieldset>
+            </form>
+            {% if flashErrorInscription != false  %}
+                <div class="alert alert-dismissible alert-secondary">
+                  {{ flashErrorInscription }}
+                </div>
+            {% endif %}   
+        </div>    
+{% endblock %}

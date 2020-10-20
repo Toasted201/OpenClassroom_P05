@@ -1,73 +1,25 @@
 <?php
 
-session_start();
-
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__,1));
-$dotenv->load();
+use Controller\FrontController;
+use App\{Request, Session, Router};
 
 // charger autoloader
 require '../vendor/autoload.php';
+Session::start();
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 1));
+$dotenv->load();
 
-
-
-
-$action = $_GET['action'] ?? '';
-
-
-// ****************** COPIE TP_BLOG
-
-if (isset($_GET['action'])) 
-{
-    if($action === '') {
-        $controller = new FrontController();
-        $controller->index();
-    }
-    if ($_GET['action'] == 'listPosts') 
-    {
-        listPosts();
-    }
-    elseif ($_GET['action'] == 'post') 
-    {
-        if (isset($_GET['id']) && $_GET['id'] > 0) 
-        {
-            post();
-        }
-        else 
-        {
-            echo 'Erreur : aucun identifiant de billet envoyé';
-        }
-    }
-    elseif ($_GET['action'] == 'addComment') 
-    {
-        if (isset($_GET['id']) && $_GET['id'] > 0) 
-        {
-            if (!empty($_POST['author']) && !empty($_POST['comment'])) 
-            {
-                addComment($_GET['id'], $_POST['author'], $_POST['comment']);
-            }
-            else 
-            {
-                echo 'Erreur : tous les champs ne sont pas remplis !';
-            }
-        }
-    }
-}    
-else 
-{
-    listPosts();
-}
-
-// *******************  FIN
-
-
-
-
-
-
-
-// Appel routeur => lui passer l'action
-
-$router->get('index', ['controller'=>'FrontController', 'method'=>'index']);
-
-
-// Lancer le routeur
+$router = new Router();
+$router->pushGet('', [FrontController::class, 'home']);
+$router->pushGet('posts', [FrontController::class, 'posts']);
+$router->pushGet('post', [FrontController::class, 'post', ['postId']]);
+$router->pushPost('addComment', [FrontController::class, 'addComment']);
+$router->pushGet('authentification', [FrontController::class, 'authentification']);
+$router->pushGet('deconnexion', [FrontController::class, 'deconnexion']);
+$router->pushPost('inscription', [FrontController::class, 'inscription']);
+$router->pushPost('connexion', [FrontController::class, 'connexion']);
+$router->pushGet('curriculum', [FrontController::class, 'curriculum']);
+$router->pushGet('admin', [FrontController::class, 'admin']);
+$router->pushPost('contact', [FrontController::class, 'contact']);
+$router->run();
+exit;

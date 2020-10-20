@@ -1,0 +1,48 @@
+{% extends "Template/base.html.twig" %}
+
+{% block title %}Article{% endblock %}
+
+{% block content %}
+  <div class="bs-component">
+    <div class="card" style="width: 100%">
+      <div class="card-body">
+        <h4 class="card-title">{{ post.title }}</h4> 
+        <h6 class="card-subtitle"> {{ post.chapo }} </h6>
+      </div>
+      <div class="card-body">  
+        <p class="card-text"> {{ post.content }} </p>
+      </div> 
+      <div class="card-footer text-muted">
+        par {{ post.firstName }} {{ post.lastName }} ( Mis à jour le {{ post.dateLast }} )
+      </div>
+    </div>
+    {% if firstName is empty %}
+    <a class="btn btn-primary btn-sm mb-3" role="button" href="?action=authentification">Connectez vous pour poster un commentaire</a>
+    {% else %}
+    <div class="card-body">
+      <form method="post" action='?action=addComment'>
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" placeholder="Laissez votre commentaire ..." id="commentContent" name="commentContent"></input>
+          <input name="postId" type="hidden" value="{{post.id}}"></input>
+          <button type="submit" class="btn btn-info">Envoyer</button>
+        </div>
+      </form>
+    </div>
+      {% if flashSuccess != false  %}
+        <div class="alert alert-dismissible alert-primary">
+          {{ flashSuccess }}
+        </div>
+      {% endif %} 
+    {% endif %}
+    <div class="list-group">
+    {% for comment in comments %}
+      <div class="card py-2 px-3"  style="width: 100%">
+
+            <div class="card-text">{{ comment.content }}</div>
+            <div class="card-text text-primary ml-auto">par {{ comment.firstName }} {{ comment.lastName }} le {{ comment.dateCreateFR }}</div>
+
+      </div>  
+    {% endfor %} 
+    </div>
+  </div>
+{% endblock %}

@@ -5,6 +5,7 @@ namespace Controller;
 use Manager\PostManager;
 use App\Session;
 use App\Request;
+use Manager\CommentManager;
 use Manager\UserManager;
 use Model\Entity\User;
 
@@ -26,17 +27,32 @@ class FrontController extends BaseController
 
     public function posts()
     {
-        $manager = new PostManager();
-        $posts = $manager->getPosts();
+        $managerPost = new PostManager();
+        $posts = $managerPost->getPosts();
         echo $this->render('Front/posts.html.twig', ['listPosts' => $posts]);
     }
 
         
     public function post($postId)
     {
-        $manager = new PostManager();
-        $post = $manager->getPost($postId);
-        echo $this->render('Front/post.html.twig', ['post' => $post]);
+        $successComment = Session::Flash('successComment');
+        $statut = "valide";
+        $managerPost = new PostManager();
+        $post = $managerPost->getPost($postId);
+        $managerComment = new CommentManager();
+        $comments = $managerComment->getComments($post['id']);
+        $commentsValide = [];
+        foreach ($comments as $comment) {
+            if ($comment['statut'] === $statut) {
+                $commentsValide[] = $comment;
+            }
+        }
+        echo $this->render(
+            'Front/post.html.twig',
+            ['post' => $post,
+            'comments' => $commentsValide,
+            'flashSuccess' => $successComment]
+        );
     }
 
     public function authentification()
@@ -177,5 +193,23 @@ class FrontController extends BaseController
             $userManager->add($userNew);
             $this->home(); //TODO utiliser les redirections
         }
+    }
+
+    public function addComment()
+    {
+        $postId = Request::postData('postId');
+        $content = Request::postData('commentContent');
+        $connectedUser = Session::auth();
+        $userId = $connectedUser->getId();
+        $commentNew = [];
+        $commentNew = [
+            'postId' => $postId,
+            'content' => $content,
+            'userId' => $userId
+        ];
+        $commentManager = new commentManager();
+        $commentManager->addComment($commentNew);
+        Session::setFlash('successComment', 'Votre commentaire a été soumis pour validation');
+        $this->post($postId);
     }
 }

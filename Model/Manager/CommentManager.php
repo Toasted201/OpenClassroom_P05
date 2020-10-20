@@ -8,32 +8,39 @@ class CommentManager extends BaseManager
 {
 
 
-    public function postComment(Comment $comment)
+    public function addComment($comment)
     {
         $db = $this->getDb();
-        $req = $db->prepare('INSERT INTO comment(post, author, content, date_create) 
-            VALUES(:post ,:author, :content, NOW())');
+        $req = $db->prepare('INSERT INTO comment(postId, userId, content, dateCreate, statut) 
+            VALUES(:postId ,:userId, :content, NOW(), "attente")');
         $affectedLines = $req->execute([
-            'author' => $comment->userId(),
-            'content' => $comment->content(),
-            'post' => $comment->postId()
+            'userId' => $comment['userId'],
+            'content' => $comment['content'],
+            'postId' => $comment['postId']
         ]);
         $req->closeCursor();
         return $affectedLines;
     }
 
 
-    public function getComments($id_post)
+    public function getComments($idPost)
     {
         $db = $this->getDb();
         $req = $db->prepare('SELECT 
-            id, 
-            author, 
-            comment, 
-            DATE_FORMAT(date_create, \'%d/%m/%Y à %Hh%imin%ss\') AS dateCreateFR 
-            FROM comment WHERE post = :post ORDER BY date_create DESC');
+            comment.id,
+            comment.postId, 
+            comment.userId, 
+            comment.content,
+            comment.dateCreate,
+            comment.statut,
+            user.firstName,
+            user.lastName,
+            DATE_FORMAT(comment.dateCreate, \'%d/%m/%Y\') AS dateCreateFR
+            FROM comment,user
+            WHERE comment.userId = user.Id AND comment.postId = :postId
+            ORDER BY dateCreate DESC');
         $req->execute([
-            'post' => $id_post
+            'postId' => $idPost
         ]);
         $comments = $req->fetchAll();
         $req->closeCursor();

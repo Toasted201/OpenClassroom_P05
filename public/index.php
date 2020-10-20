@@ -13,6 +13,7 @@ $router = new Router();
 $router->pushGet('', [FrontController::class, 'home']);
 $router->pushGet('posts', [FrontController::class, 'posts']);
 $router->pushGet('post', [FrontController::class, 'post', ['postId']]);
+$router->pushPost('addComment', [FrontController::class, 'addComment']);
 $router->pushGet('authentification', [FrontController::class, 'authentification']);
 $router->pushGet('deconnexion', [FrontController::class, 'deconnexion']);
 $router->pushPost('inscription', [FrontController::class, 'inscription']);

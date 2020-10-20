@@ -49,18 +49,23 @@ class PostManager extends BaseManager
     public function getPost($postId)
     {
         $db = $this->getDb();
-        $req = $db->prepare('SELECT id, 
-            title, 
-            content, 
-            chapo, 
-            userId, 
-            DATE_FORMAT(dateCreate, \'%d/%m/%Y à %Hh%imin%ss\') AS dateCreateFr 
-            FROM post WHERE id = :id');
-        $req->execute(
+        $reqPost = $db->prepare('SELECT post.id, 
+            post.title, 
+            post.content, 
+            post.chapo, 
+            post.userId, 
+            user.firstName, 
+            user.lastName,
+            CASE 
+                WHEN post.dateChange IS null THEN DATE_FORMAT(post.dateCreate, \'%d/%m/%Y\') 
+                ELSE DATE_FORMAT(post.dateChange, \'%d/%m/%Y\') END AS dateLast
+            FROM post, user
+            WHERE post.userId = user.id AND post.id = :id');
+        $reqPost->execute(
             ['id' => $postId]
         );
-        $post = $req->fetch();
-        $req->closeCursor();
+        $post = $reqPost->fetch();
+        $reqPost->closeCursor();
         return $post;
     }
 }

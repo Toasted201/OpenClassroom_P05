@@ -6,15 +6,6 @@ use Model\Entity\Post;
 
 class PostManager extends BaseManager
 {
-    /*
-  private $_db; // Instance de PDO.
-
-  public function __construct($db)
-  {
-      $this->setDb($db);
-  }
-  */
-
     public function getPosts()
     {
         $db = $this->getDb();

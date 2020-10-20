@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="css/custom.min.css">
+</head>
+
+<body>
+
+
+<div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="?action="><img src="img/logo.png" alt="helixsi"></img></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="?action=posts">Articles <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="?action=curriculum">Mon CV<span class="sr-only">(current)</span></a>
+                  </li>
+                <li class="nav-item">
+                    {% if firstName is empty %}<a class="nav-link" href="?action=authentification">Connexion <span class="sr-only">(current)</span></a>
+                    {% else %} <a class="nav-link" href="?action=deconnexion"> Déconnexion ( {{firstName}}) </a>
+                    {% endif %} 
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="bs-docs-section clearfix">
+    <div class="container">
+        <div class="col">
+            <div class="bs-component">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <h1>Section Administration</h1>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<div class="container">
+    <div class="bs-docs-section"> <!--contenu-->
+            <div id="content">{% block content %}{% endblock %}</div>
+    </div>    
+</div>   
+</body>
+</html>

@@ -72,11 +72,6 @@ class FrontController extends BaseController
         echo $this->render('Front/cv.html.twig', []);
     }
 
-    public function admin()
-    {
-        echo $this->render('Admin/admin.html.twig', []);
-    }
-
     public function contact() //TODO optionnel : "à mettre dans un service"
     {
         if (!empty($_POST['identity']) and !empty($_POST['email']) and !empty($_POST['message'])) {

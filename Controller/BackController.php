@@ -34,33 +34,21 @@ class BackController extends BaseController
         $chapo = Request::postData('chapoNewPost');
         $content = Request::postData('contentNewPost');
         $publish = Request::postData('publishNewPost');
-
         $erreur_form = 0;
-
-        //vérifie les $POST
         if (!isset($userId) or !isset($title) or !isset($chapo) or !isset($content) or !isset($publish)) {
             $erreur_form = 1;
             Session::setFlash('errorNewPost', 'Il y a une erreur dans l\'envoi du formulaire');
         }
-
-        //vérifie le userRole
         if ($userRole != 'admin') {
             $erreur_form = 1;
             Session::setFlash('errorNewPost', 'Vous n\êtes pas connecté en tant qu\'admin');
         }
-
         if ($erreur_form == 1) { //s'il y a au moins une erreur
             $this->newPost();
-        } else //s'il n'y a aucune erreur
-        {
+        } else {
             $postNew = [];
             $postNew = [
-            'userId' => $userId,
-            'title' => $title,
-            'chapo' => $chapo,
-            'content' => $content,
-            'publish' => $publish
-            ];
+                'userId' => $userId, 'title' => $title, 'chapo' => $chapo, 'content' => $content,'publish' => $publish];
             $postManager = new postManager();
             $postManager->add($postNew);
             Session::setFlash('successNewPost', 'Votre post a bien été enregistré');

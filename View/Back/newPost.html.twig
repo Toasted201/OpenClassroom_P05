@@ -1,0 +1,50 @@
+{% extends "Template/baseBack.html.twig" %}
+
+{% block title %}Nouveau Post{% endblock %}
+
+{% block content %}
+<form method="post" action="?action=addPost">
+    <fieldset>
+        <h4>Nouveau Post</h4>
+            <div class="form-group">
+                <label for="titreNewPost">Titre</label>
+                    <input type="text" class="form-control" id="titre" name='titreNewPost' maxlenght="255" cols="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="chapoNewPost">Chapô</label>
+                    <textarea class="form-control" id="chapo" name='chapoNewPost' rows="2" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="contenuNewPost">Contenu</label>
+                    <textarea class="form-control" id="contenu" name='contentNewPost' rows="10" required></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                        <input type="radio" class="form-check-input" id="publish" name="publishNewPost" value="0" checked>
+                        Non publié
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                        <input type="radio" class="form-check-input" id="publish" name="publishNewPost" value="1">
+                        Publié
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-info">Enregistrer</button>
+                </fieldset>
+</form>
+              {% if flashErrorNewPost != false  %}
+                <div class="alert alert-dismissible alert-secondary">
+                  {{ flashErrorNewPost }}
+                </div>
+              {% else %}
+                  {% if flashSuccessNewPost != false  %}
+                    <div class="alert alert-dismissible alert-primary">
+                      {{ flashSuccessNewPost }}
+                    </div>
+                    {% endif %}
+               {% endif %}  
+<a class="btn btn-primary btn-sm float-right" href="?action=admin" role="button">Retour Accueil Admin</a>
+{% endblock %}

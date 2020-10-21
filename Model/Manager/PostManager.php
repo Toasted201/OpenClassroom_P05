@@ -6,6 +6,10 @@ use Model\Entity\Post;
 
 class PostManager extends BaseManager
 {
+    public function __construct()
+    {
+    }
+    
     public function getPosts()
     {
         $db = $this->getDb();
@@ -48,7 +52,8 @@ class PostManager extends BaseManager
                     post.title, 
                     post.content, 
                     post.chapo, 
-                    post.userId, 
+                    post.userId,
+                    post.publish,
                     user.firstName, 
                     user.lastName,
                     CASE 
@@ -76,6 +81,31 @@ class PostManager extends BaseManager
                 'chapo' => $newPost['chapo'],
                 'content' => $newPost['content'],
                 'publish' => $newPost['publish']
+            ]
+        );
+    }
+
+    public function update($editPost)
+    {
+        $db = $this->getDB();
+        $req = $db->prepare(
+            'UPDATE post
+            SET userId = :userId,
+            title = :title,
+            chapo = :chapo,
+            content = :content,
+            publish = :publish,
+            dateChange = NOW()
+            WHERE id = :id'
+        );
+        $req->execute(
+            [
+                'userId' => $editPost['userId'],
+                'title' => $editPost['title'],
+                'chapo' => $editPost['chapo'],
+                'content' => $editPost['content'],
+                'publish' => $editPost['publish'],
+                'id' => $editPost['postId']
             ]
         );
     }

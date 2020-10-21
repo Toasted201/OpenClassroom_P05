@@ -8,6 +8,7 @@ use App\Request;
 use Manager\CommentManager;
 use Manager\UserManager;
 use Model\Entity\User;
+use Model\Entity\Post;
 
 class BackController extends BaseController
 {
@@ -29,7 +30,7 @@ class BackController extends BaseController
         $connectedUser = Session::auth();
         $userId = $connectedUser->getId();
         $userRole = $connectedUser->userRole();
-              $title = Request::postData('titleNewPost');
+        $title = Request::postData('titleNewPost');
         $chapo = Request::postData('chapoNewPost');
         $content = Request::postData('contentNewPost');
         $publish = Request::postData('publishNewPost');
@@ -71,7 +72,44 @@ class BackController extends BaseController
     {
         $managerPost = new PostManager();
         $posts = $managerPost->getPosts();
-        echo $this->render('Back/editPostList.html.twig', [['listPosts' => $posts]]);
+        echo $this->render('Back/editPostList.html.twig', ['listPosts' => $posts]);
+    }
+
+    public function editPostDetail($postId) //TODO FLASH n'apparait pas
+    {
+        $successEditPost = Session::Flash('successEditPost');
+        $managerPost = new PostManager();
+        $managerUser = new UserManager();
+        $users = $managerUser->getList();
+        $post = $managerPost->getPost($postId);
+        echo $this->render(
+            'Back/editPostDetail.html.twig',
+            ['post' => $post, 'listUsers' => $users,
+            'flashSuccessEditPost' => $successEditPost]
+        );
+    }
+    
+    public function updatePost()
+    {
+        $title = Request::postData('titleEditPost');
+        $chapo = Request::postData('chapoEditPost');
+        $content = Request::postData('contentEditPost');
+        $publish = Request::postData('publishEditPost');
+        $userId = Request::postData('userIdEditPost');
+        $postId = Request::postData('postId');
+        $postEdit = [];
+        $postEdit = [
+        'userId' => $userId, //TODO récupérer valeur modifiée de la liste déroulante
+        'title' => $title,
+        'chapo' => $chapo,
+        'content' => $content,
+        'publish' => $publish,
+        'postId' => $postId
+        ];
+        $postManager = new postManager();
+        $postManager->update($postEdit);
+        Session::setFlash('successEditPost', 'Votre post a bien été modifié');
+        $this->editPostDetail($postId);
     }
 
     public function validComment()

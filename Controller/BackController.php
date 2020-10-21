@@ -16,14 +16,62 @@ class BackController extends BaseController
         echo $this->render('Back/admin.html.twig', []);
     }
     
-    public function addPost()
+    public function newPost()
     {
-        echo $this->render('Back/addPost.html.twig', []);
+        $successNewPost = Session::Flash('successNewPost');
+        $errorNewPost = Session::Flash('errorNewPost');
+        echo $this->render('Back/newPost.html.twig', ['flashErrorNewPost' => $errorNewPost,
+        'flashSuccessNewPost' => $successNewPost]);
     }
 
-    public function editPost()
+    public function addPost()
     {
-        echo $this->render('Back/editPost.html.twig', []);
+        $connectedUser = Session::auth();
+        $userId = $connectedUser->getId();
+        $userRole = $connectedUser->userRole();
+              $title = Request::postData('titleNewPost');
+        $chapo = Request::postData('chapoNewPost');
+        $content = Request::postData('contentNewPost');
+        $publish = Request::postData('publishNewPost');
+
+        $erreur_form = 0;
+
+        //vérifie les $POST
+        if (!isset($userId) or !isset($title) or !isset($chapo) or !isset($content) or !isset($publish)) {
+            $erreur_form = 1;
+            Session::setFlash('errorNewPost', 'Il y a une erreur dans l\'envoi du formulaire');
+        }
+
+        //vérifie le userRole
+        if ($userRole != 'admin') {
+            $erreur_form = 1;
+            Session::setFlash('errorNewPost', 'Vous n\êtes pas connecté en tant qu\'admin');
+        }
+
+        if ($erreur_form == 1) { //s'il y a au moins une erreur
+            $this->newPost();
+        } else //s'il n'y a aucune erreur
+        {
+            $postNew = [];
+            $postNew = [
+            'userId' => $userId,
+            'title' => $title,
+            'chapo' => $chapo,
+            'content' => $content,
+            'publish' => $publish
+            ];
+            $postManager = new postManager();
+            $postManager->add($postNew);
+            Session::setFlash('successNewPost', 'Votre post a bien été enregistré');
+            $this->newPost(); //TODO utiliser les redirections
+        }
+    }
+
+    public function editPostList()
+    {
+        $managerPost = new PostManager();
+        $posts = $managerPost->getPosts();
+        echo $this->render('Back/editPostList.html.twig', [['listPosts' => $posts]]);
     }
 
     public function validComment()

@@ -10,13 +10,14 @@ class PostManager extends BaseManager
     {
         $db = $this->getDb();
         $req = $db->query('SELECT id, 
-            title, 
-            chapo, 
-            userId,
-            CASE 
-                WHEN dateChange IS null THEN DATE_FORMAT(dateCreate, \'%d/%m/%Y\') 
-                ELSE DATE_FORMAT(dateChange, \'%d/%m/%Y\') END AS dateLast
-            FROM post ORDER BY dateLast DESC');
+                    title, 
+                    chapo, 
+                    userId,
+                    publish,
+                    CASE 
+                        WHEN dateChange IS null THEN DATE_FORMAT(dateCreate, \'%d/%m/%Y\') 
+                        ELSE DATE_FORMAT(dateChange, \'%d/%m/%Y\') END AS dateLast
+                    FROM post ORDER BY dateLast DESC');
         $posts = $req->fetchAll();
         $req->closeCursor();
         return $posts;
@@ -26,12 +27,15 @@ class PostManager extends BaseManager
     {
         $db = $this->getDb();
         $req = $db->query('SELECT id, 
-            title, 
-            content, 
-            chapo, 
-            userId , 
-            DATE_FORMAT(dateCreate, \'%d/%m/%Y à %Hh%imin%ss\') AS dateCreateFr 
-            FROM post ORDER BY dateCreate DESC LIMIT 3');
+                    title, 
+                    content, 
+                    chapo, 
+                    userId ,
+                    publish, 
+                    DATE_FORMAT(dateCreate, \'%d/%m/%Y à %Hh%imin%ss\') AS dateCreateFr 
+                    FROM post 
+                    WHERE publish=1
+                    ORDER BY dateCreate DESC LIMIT 3');
         $posts = $req->fetchAll();
         $req->closeCursor();
         return $posts;
@@ -41,22 +45,38 @@ class PostManager extends BaseManager
     {
         $db = $this->getDb();
         $reqPost = $db->prepare('SELECT post.id, 
-            post.title, 
-            post.content, 
-            post.chapo, 
-            post.userId, 
-            user.firstName, 
-            user.lastName,
-            CASE 
-                WHEN post.dateChange IS null THEN DATE_FORMAT(post.dateCreate, \'%d/%m/%Y\') 
-                ELSE DATE_FORMAT(post.dateChange, \'%d/%m/%Y\') END AS dateLast
-            FROM post, user
-            WHERE post.userId = user.id AND post.id = :id');
+                    post.title, 
+                    post.content, 
+                    post.chapo, 
+                    post.userId, 
+                    user.firstName, 
+                    user.lastName,
+                    CASE 
+                        WHEN post.dateChange IS null THEN DATE_FORMAT(post.dateCreate, \'%d/%m/%Y\') 
+                        ELSE DATE_FORMAT(post.dateChange, \'%d/%m/%Y\') END AS dateLast
+                    FROM post, user
+                    WHERE post.userId = user.id AND post.id = :id');
         $reqPost->execute(
             ['id' => $postId]
         );
         $post = $reqPost->fetch();
         $reqPost->closeCursor();
         return $post;
+    }
+
+    public function add($newPost)
+    {
+        $db = $this->getDb();
+        $req = $db->prepare('INSERT INTO post(userId, title, chapo, content, publish, dateCreate)
+                    VALUES(:userId, :title, :chapo, :content, :publish, NOW())');
+        $req->execute(
+            [
+                'userId' => $newPost['userId'],
+                'title' => $newPost['title'],
+                'chapo' => $newPost['chapo'],
+                'content' => $newPost['content'],
+                'publish' => $newPost['publish']
+            ]
+        );
     }
 }

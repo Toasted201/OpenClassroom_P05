@@ -4,16 +4,18 @@
 
 {% block content %}
     <div class="bs-component">
-         {% for post in listPosts %}
-            <div class="card" style="width: 100%;">
-              <div class="card-body">
-                <h5 class="card-title">{{ post.title }}</h5>
-                <p class="card-text"> {{ post.chapo }} </p>
-                <p class="card-text"> {{ post.date_last }} </p>
-                <a href="?action=post&postId={{ post.id }}" class="btn btn-primary">La suite</a>
-              </div>
-            </div>  
-          {% endfor %}
+        {% for post in listPosts %}
+            {% if post.publish == 1 %}
+                <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text"> {{ post.chapo }} </p>
+                        <p class="card-text"> {{ post.date_last }} </p>
+                        <a href="?action=post&postId={{ post.id }}" class="btn btn-primary">La suite</a>
+                    </div>
+                </div>
+            {% endif %}  
+        {% endfor %}
 
 <!-- TODO optionnel : Archives TP pour PAGINATION
 On détermine sur quelle page on se trouve

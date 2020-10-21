@@ -1,0 +1,21 @@
+{% extends "Template/baseBack.html.twig" %}
+
+{% block title %}Modification Post (Liste){% endblock %}
+
+{% block content %}
+<h3>Liste des posts</h3> <a class="btn btn-primary btn-sm float-right" href="?action=admin" role="button">Retour Accueil Admin</a>
+    <div class="bs-component">
+        {% for post in listPosts %}
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text"> {{ post.chapo }} </p>
+                    <p class="card-text"> Dernière modification le {{ post.dateLast }} </p>
+                    <a href="?action=editPostDetail&postId={{ post.id }}" class="btn btn-primary">Modifier</a>
+                </div>
+            </div>    
+        {% endfor %}
+    </div>
+
+<a class="btn btn-primary btn-sm float-right" href="?action=admin" role="button">Retour Accueil Admin</a>
+{% endblock %}

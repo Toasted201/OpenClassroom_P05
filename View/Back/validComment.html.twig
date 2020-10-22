@@ -3,5 +3,48 @@
 {% block title %}Modération Commentaires{% endblock %}
 
 {% block content %}
+
+<div class="bs-component">
+    <h3>Liste des commentaires en attente de validation <a class="btn btn-primary btn-sm float-right" href="?action=admin" role="button">Retour Accueil Admin</a></h3> 
+    
+</div>
+<div class="bs-component">
+    {% for comment in listComments %}
+        <div class="card">
+            <div class="row">
+                <div class="col-8">
+                    <h5 class="card-title">{{ comment.content }}</h5>
+                    <p class="card-text">le {{ comment.dateCreateFR }} par {{ comment.lastName }}  {{ comment.firstName }}</p>
+                </div>
+                <div class="col-2">
+                <a href="?action=post&postId={{ comment.postId }}" class="btn-sm btn-primary">Voir le post</a>
+                </div>
+                <div class="col-2">
+                <form method="post" action="?action=validCommentForm">
+                    <fieldset>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                            <input type="radio" class="form-check-input" id="valid" name="validComment" value="refus" checked>
+                                Refuser
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                            <input type="radio" class="form-check-input" id="valid" name="validComment" value="valide">
+                                Valider
+                        </label>
+                    </div>
+                    <input name="commentId" type="hidden" value="{{comment.id}}"></input>
+                    <button type="submit" class="btn-sm btn-info">Enregistrer</button>
+                </fieldset>
+                </form>
+                </div>
+            </div> 
+        </div>    
+    {% endfor %}
+</div>
+
 <a class="btn btn-primary btn-sm float-right" href="?action=admin" role="button">Retour Accueil Admin</a>
+
 {% endblock %}

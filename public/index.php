@@ -28,5 +28,6 @@ $router->pushGet('editPostList', [BackController::class, 'editPostList']);
 $router->pushGet('editPostDetail', [BackController::class, 'editPostDetail', ['postId']]);
 $router->pushPost('updatePost', [BackController::class, 'updatePost']);
 $router->pushGet('validComment', [BackController::class, 'validComment']);
+$router->pushPost('validCommentForm', [BackController::class, 'validCommentForm']);
 $router->run();
 exit;

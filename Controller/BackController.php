@@ -102,6 +102,22 @@ class BackController extends BaseController
 
     public function validComment()
     {
-        echo $this->render('Back/validComment.html.twig', []);
+        $managerComment = new CommentManager();
+        $waitComments = $managerComment->getWaitComments();
+        echo $this->render('Back/validComment.html.twig', ['listComments' => $waitComments]);
+    }
+
+    public function validCommentForm()
+    {
+        $statut = Request::postData('validComment');
+        $id = Request::postData('commentId');
+        $statutUpdate = [];
+        $statutUpdate = [
+            'statut' => $statut,
+            'id' => $id
+        ];
+        $commentManager = new CommentManager();
+        $commentManager -> statutUpdate($statutUpdate);
+        $this->validComment();
     }
 }

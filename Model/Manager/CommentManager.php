@@ -46,4 +46,36 @@ class CommentManager extends BaseManager
         $req->closeCursor();
         return $comments;
     }
+
+    public function getWaitComments()
+    {
+        $db = $this->getDb();
+        $req = $db->prepare('SELECT 
+            comment.id,
+            comment.postId, 
+            comment.userId, 
+            comment.content,
+            comment.dateCreate,
+            comment.statut,
+            user.firstName,
+            user.lastName,
+            DATE_FORMAT(comment.dateCreate, \'%d/%m/%Y\') AS dateCreateFR
+            FROM comment,user
+            WHERE comment.userId = user.Id AND comment.statut = "attente"
+            ORDER BY dateCreate DESC');
+        $req->execute();
+        $waitComments = $req->fetchAll();
+        $req->closeCursor();
+        return $waitComments;
+    }
+
+    public function statutUpdate($statutUpdate)
+    {
+        $db = $this->getDb();
+        $req = $db->prepare('UPDATE comment SET statut=:statut WHERE id=:id');
+        $req->execute([
+            'statut' => $statutUpdate['statut'],
+            'id' => $statutUpdate['id']
+        ]);
+    }
 }

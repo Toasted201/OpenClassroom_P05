@@ -16,7 +16,7 @@ class BackController extends BaseController
     {
         echo $this->render('Back/admin.html.twig', []);
     }
-    
+        
     public function newPost()
     {
         $successNewPost = Session::Flash('successNewPost');
@@ -43,7 +43,7 @@ class BackController extends BaseController
             $erreur_form = 1;
             Session::setFlash('errorNewPost', 'Vous n\êtes pas connecté en tant qu\'admin');
         }
-        if ($erreur_form == 1) { //s'il y a au moins une erreur
+        if ($erreur_form == 1) {
             $this->newPost();
         } else {
             $postNew = [];
@@ -63,9 +63,10 @@ class BackController extends BaseController
         echo $this->render('Back/editPostList.html.twig', ['listPosts' => $posts]);
     }
 
-    public function editPostDetail($postId) //TODO FLASH n'apparait pas
+    public function editPostDetail($postId)
     {
         $successEditPost = Session::Flash('successEditPost');
+        $errorEditPost = Session::Flash('errorEditPost');
         $managerPost = new PostManager();
         $managerUser = new UserManager();
         $users = $managerUser->getList();
@@ -73,10 +74,11 @@ class BackController extends BaseController
         echo $this->render(
             'Back/editPostDetail.html.twig',
             ['post' => $post, 'listUsers' => $users,
-            'flashSuccessEditPost' => $successEditPost]
+            'flashSuccessEditPost' => $successEditPost,
+            'flashErroEditPost' => $errorEditPost]
         );
     }
-    
+        
     public function updatePost()
     {
         $title = Request::postData('titleEditPost');
@@ -85,39 +87,83 @@ class BackController extends BaseController
         $publish = Request::postData('publishEditPost');
         $userId = Request::postData('userIdEditPost');
         $postId = Request::postData('postId');
-        $postEdit = [];
-        $postEdit = [
-        'userId' => $userId, //TODO récupérer valeur modifiée de la liste déroulante
-        'title' => $title,
-        'chapo' => $chapo,
-        'content' => $content,
-        'publish' => $publish,
-        'postId' => $postId
-        ];
-        $postManager = new postManager();
-        $postManager->update($postEdit);
-        Session::setFlash('successEditPost', 'Votre post a bien été modifié');
-        $this->editPostDetail($postId);
+        $connectedUser = Session::auth();
+        $userRole = $connectedUser->userRole();
+        $erreur_form = 0;
+        if (
+            !isset($title) or
+            !isset($chapo) or
+            !isset($content) or
+            !isset($userId) or
+            !isset($publish) or
+            !isset($postId)
+        ) {
+            $erreur_form = 1;
+            Session::setFlash('errorEditPost', 'Il y a une erreur dans l\'envoi du formulaire');
+        }
+        if ($userRole != 'admin') {
+            $erreur_form = 1;
+            Session::setFlash('errorEditPost', 'Vous n\êtes pas connecté en tant qu\'admin');
+        }
+        if ($erreur_form == 1) {
+            $this->editPostDetail($postId);
+        } else {
+            $postEdit = [];
+            $postEdit = [
+            'userId' => $userId,
+            'title' => $title,
+            'chapo' => $chapo,
+            'content' => $content,
+            'publish' => $publish,
+            'postId' => $postId
+            ];
+            $postManager = new postManager();
+            $postManager->update($postEdit);
+            Session::setFlash('successEditPost', 'Votre post a bien été modifié');
+            $this->editPostDetail($postId);
+        }
     }
 
     public function validComment()
     {
         $managerComment = new CommentManager();
         $waitComments = $managerComment->getWaitComments();
-        echo $this->render('Back/validComment.html.twig', ['listComments' => $waitComments]);
+        $errorEditComment = Session::Flash('errorEditComment');
+        echo $this->render(
+            'Back/validComment.html.twig',
+            ['listComments' => $waitComments, 'flashErrorEditComment' => $errorEditComment]
+        );
     }
 
     public function validCommentForm()
     {
         $statut = Request::postData('validComment');
         $id = Request::postData('commentId');
-        $statutUpdate = [];
-        $statutUpdate = [
+        $connectedUser = Session::auth();
+        $userRole = $connectedUser->userRole();
+        $erreur_form = 0;
+        if (
+            !isset($statut) or
+            !isset($id)
+        ) {
+            $erreur_form = 1;
+            Session::setFlash('errorValidComment', 'Il y a une erreur dans l\'envoi du formulaire');
+        }
+        if ($userRole != 'admin') {
+            $erreur_form = 1;
+            Session::setFlash('errorValidPost', 'Vous n\êtes pas connecté en tant qu\'admin');
+        }
+        if ($erreur_form == 1) {
+            $this->validComment();
+        } else {
+            $statutUpdate = [];
+            $statutUpdate = [
             'statut' => $statut,
             'id' => $id
-        ];
-        $commentManager = new CommentManager();
-        $commentManager -> statutUpdate($statutUpdate);
-        $this->validComment();
+            ];
+            $commentManager = new CommentManager();
+            $commentManager -> statutUpdate($statutUpdate);
+            $this->validComment();
+        }
     }
 }

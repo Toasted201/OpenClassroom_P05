@@ -5,9 +5,10 @@ namespace Model\Entity;
 class Post
 {
     private $id;
-    private $author;
+    private $userId;
     private $content;
     private $title;
+    private $chapo;
     private $publish;
     private $dateCreate;
     private $dateChange;
@@ -36,9 +37,9 @@ class Post
     {
         return $this->id;
     }
-    public function author()
+    public function userId()
     {
-        return $this->author;
+        return $this->userId;
     }
     public function content()
     {
@@ -47,6 +48,10 @@ class Post
     public function title()
     {
         return $this->title;
+    }
+    public function chapo()
+    {
+        return $this->chapo;
     }
     public function publish()
     {
@@ -72,10 +77,10 @@ class Post
         }
     }
 
-    public function setAuthor($author)
+    public function setUserId($userId)
     {
-        if (is_string($author)) {
-            $this->author = $author;
+        if (is_string($userId)) {
+            $this->userId = $userId;
         }
     }
 
@@ -93,6 +98,12 @@ class Post
         }
     }
 
+    public function setChapo($chapo)
+    {
+        if (is_string($chapo)) {
+            $this->chapo = $chapo;
+        }
+    }
     public function setPublish($publish)
     {
         if (is_bool($publish)) {

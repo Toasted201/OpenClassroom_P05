@@ -1,0 +1,60 @@
+{% extends "Template/baseBack.html.twig" %}
+
+{% block title %}Modification Post{% endblock %}
+
+{% block content %}
+{% if flashErrorEditPost != false  %}
+    <div class="alert alert-dismissible alert-secondary">
+        {{ flashErrorEditPost }}
+    </div>
+{% else %}
+    {% if flashSuccessEditPost != false  %}
+    <div class="alert alert-dismissible alert-primary">
+    {{ flashSuccessEditPost }}
+    </div>
+    {% endif %}
+{% endif %}  
+<div class="bs-component">
+<h4>Modification du post # {{ post.id }}</h4>
+        <form method="post" action="?action=updatePost">
+            <div class="form-group">
+                <label for="titreEditPost">TITRE</label>
+                <input type="text" class="form-control" id="titre" name='titleEditPost' value= "{{ post.title }}" maxlength="255" cols="50">
+            </div>
+            <div class="form-group">
+                <label for="chapoEditPost">CHAPO</label>
+                <textarea class="form-control" id="chapo" name='chapoEditPost' rows="2">{{ post.chapo }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="contenuEditPost">CONTENU</label>
+            <textarea class="form-control" id="contenu" name='contentEditPost' rows="10">{{ post.content }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="user">Auteur</label>
+            <select class="form-control" id="user" name="userIdEditPost">
+                {% for user in listUsers %}
+                <option> {{ user.id }} </option>
+                {% endfor %}
+            </select>
+         </div>
+        <div class="form-group">
+            <div class="form-check">
+                <label class="form-check-label">
+                <input type="radio" class="form-check-input" id="publish" name="publishEditPost" value="0" {% if post.publish == 0 %} checked {% endif %}>
+                Non publié
+            </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                <input type="radio" class="form-check-input" id="publish" name="publishEditPost" value="1" {% if post.publish == 1 %} checked {% endif %}>
+                Publié
+                </label>
+            </div>
+        </div>
+        <input name="postId" type="hidden" value="{{post.id}}"></input>
+
+        <button type="submit" class="btn-sm btn-info">Enregistrer les modifications</button>
+        </form>
+</div>
+<a class="btn btn-primary btn-sm float-right" href="?action=editPostList" role="button">Retour Liste Posts</a>
+{% endblock %}

@@ -21,8 +21,11 @@ class BackController extends BaseController
     {
         $successNewPost = Session::Flash('successNewPost');
         $errorNewPost = Session::Flash('errorNewPost');
-        echo $this->render('Back/newPost.html.twig', ['flashErrorNewPost' => $errorNewPost,
-        'flashSuccessNewPost' => $successNewPost]);
+        echo $this->render(
+            'Back/newPost.html.twig',
+            ['flashErrorNewPost' => $errorNewPost,
+            'flashSuccessNewPost' => $successNewPost]
+        );
     }
 
     public function addPost()
@@ -34,9 +37,9 @@ class BackController extends BaseController
         $chapo = Request::postData('chapoNewPost');
         $content = Request::postData('contentNewPost');
         $publish = Request::postData('publishNewPost');
-        $erreur_form = 0;
+        $erreur_form = 0; // TODO refactor erreur_form with true/false in each files
         if (!isset($userId) or !isset($title) or !isset($chapo) or !isset($content) or !isset($publish)) {
-            $erreur_form = 1;
+            $erreur_form = 1; 
             Session::setFlash('errorNewPost', 'Il y a une erreur dans l\'envoi du formulaire');
         }
         if ($userRole != 'admin') {
@@ -48,11 +51,16 @@ class BackController extends BaseController
         } else {
             $postNew = [];
             $postNew = [
-                'userId' => $userId, 'title' => $title, 'chapo' => $chapo, 'content' => $content,'publish' => $publish];
+                'userId' => $userId,
+                'title' => $title,
+                'chapo' => $chapo,
+                'content' => $content,
+                'publish' => $publish
+            ];
             $postManager = new postManager();
             $postManager->add($postNew);
             Session::setFlash('successNewPost', 'Votre post a bien été enregistré');
-            $this->newPost(); //TODO utiliser les redirections
+            $this->newPost(); //TODO utiliser les redirections dans tous les controllers
         }
     }
 
@@ -141,19 +149,19 @@ class BackController extends BaseController
         $id = Request::postData('commentId');
         $connectedUser = Session::auth();
         $userRole = $connectedUser->userRole();
-        $erreur_form = 0;
+        $erreur_form = false ;
         if (
             !isset($statut) or
             !isset($id)
         ) {
-            $erreur_form = 1;
+            $erreur_form = true;
             Session::setFlash('errorValidComment', 'Il y a une erreur dans l\'envoi du formulaire');
         }
         if ($userRole != 'admin') {
-            $erreur_form = 1;
+            $erreur_form = true;
             Session::setFlash('errorValidPost', 'Vous n\êtes pas connecté en tant qu\'admin');
         }
-        if ($erreur_form == 1) {
+        if ($erreur_form == true) {
             $this->validComment();
         } else {
             $statutUpdate = [];

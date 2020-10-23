@@ -85,7 +85,7 @@ class UserManager extends BaseManager
     {
         $db = $this->getDb();
         $users = [];
-        $req = $db->query('SELECT * FROM user');
+        $req = $db->query('SELECT * FROM user'); //TODO change query in prepare
         while ($data = $req->fetch()) {
             $users[] = new User($data);
         }
@@ -96,7 +96,7 @@ class UserManager extends BaseManager
     public function update(User $user)
     {
         $db = $this->getDb();
-        $req = $db->prepare('UPDATE INTO user 
+        $req = $db->prepare('UPDATE user
             SET firstName = :firstName, lastName = :lastName, pass = :pass, userRole = :userRole 
             WHERE id = :id');
         $req->execute(
@@ -107,5 +107,24 @@ class UserManager extends BaseManager
                 'role' => $user->userRole()
             ]
         );
+    }
+
+    public function attaques(User $user) // ajoute 1 attaque, à date du jour, à l'utilisateur
+    {
+        $db = $this->getDb();
+        $dateJour = date('Y-m-d');
+        if ($user->dateBF() != $dateJour) {  //si la date d'attaque de l'utilisateur est différente d'aujourd'hui alors
+            $user->setNbAttaques(0); //on attribue 0 au nb d'attaque de l'utilisateur
+        }
+        $req = $db->prepare('UPDATE user SET nbAttaques = :nbAttaques, dateBF = NOW() WHERE id = :userId');
+        $req->execute(
+            [
+                'nbAttaques' =>  $user->nbAttaques() + 1,
+                'userId' => $user->getId()
+            ]
+        );
+        $req->closeCursor();
+        $user->setNbAttaques($user->nbAttaques() + 1);
+        return $user;
     }
 }

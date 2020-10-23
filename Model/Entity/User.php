@@ -12,8 +12,10 @@ class User
     private $dateCreate;
     private $dateLastConnexion;
     private $userRole;
-    private $posts = [];
-    private $comments = [];
+    private $dateBF;
+    private $nbAttaques;
+    //private $posts = [];
+    //private $comments = [];
 
 
     
@@ -67,6 +69,14 @@ class User
     public function userRole()
     {
         return $this->userRole;
+    }
+    public function dateBF()
+    {
+        return $this->dateBF;
+    }
+    public function nbAttaques()
+    {
+        return $this->nbAttaques;
     }
 
     // Setters
@@ -128,6 +138,15 @@ class User
         }
     }
 
+    public function setNbAttaques($nbAttaques)
+    {
+        $this->nbAttaques = $nbAttaques;
+    }
+
+    public function setDateBF($dateBF)
+    {
+        $this->dateBF = $dateBF;
+    }
     /*public function isLoggedIn()
     {
         return !empty($_SESSION['firstName']);

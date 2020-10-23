@@ -109,6 +109,7 @@ class FrontController extends BaseController
 
     public function connexion()
     {
+        $dateJour = date('Y-m-d');
         $mail = Request::postData('mailConnect');
         $pass = Request::postData('passConnect');
         $userManager = new UserManager();
@@ -117,13 +118,19 @@ class FrontController extends BaseController
             Session::setFlash('errorConnexion', 'Le mail n\'existe pas');
             $this->authentification();
         } else {
-            $isPasswordCorrect = password_verify($pass, $user->pass());
-            if (!$isPasswordCorrect) {
-                Session::setFlash('errorConnexion', 'Le mot de passe est incorrect ');
+            if (($user-> nbAttaques() > 20) and ($user->dateBF() === $dateJour)) {
+                Session::setFlash('errorConnexion', 'Trop de tentative de connexion pour aujoud\'hui ');
                 $this->authentification();
             } else {
-                Session::set('connectedUser', serialize($user));
-                $this->home();
+                $isPasswordCorrect = password_verify($pass, $user->pass());
+                if (!$isPasswordCorrect) {
+                    Session::setFlash('errorConnexion', 'Le mot de passe est incorrect ');
+                    $userManager->attaques($user);
+                    $this->authentification();
+                } else {
+                    Session::set('connectedUser', serialize($user));
+                    $this->home();
+                }
             }
         }
     }

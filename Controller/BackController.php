@@ -39,7 +39,7 @@ class BackController extends BaseController
         $publish = Request::postData('publishNewPost');
         $erreur_form = 0; // TODO refactor erreur_form with true/false in each files
         if (!isset($userId) or !isset($title) or !isset($chapo) or !isset($content) or !isset($publish)) {
-            $erreur_form = 1; 
+            $erreur_form = 1;
             Session::setFlash('errorNewPost', 'Il y a une erreur dans l\'envoi du formulaire');
         }
         if ($userRole != 'admin') {
@@ -49,16 +49,16 @@ class BackController extends BaseController
         if ($erreur_form == 1) {
             $this->newPost();
         } else {
-            $postNew = [];
-            $postNew = [
-                'userId' => $userId,
+            $post = new Post(
+                ['userId' => $userId,
                 'title' => $title,
                 'chapo' => $chapo,
                 'content' => $content,
                 'publish' => $publish
-            ];
+                ]
+            );
             $postManager = new postManager();
-            $postManager->add($postNew);
+            $postManager->add($post);
             Session::setFlash('successNewPost', 'Votre post a bien été enregistré');
             $this->newPost(); //TODO utiliser les redirections dans tous les controllers
         }
@@ -116,17 +116,17 @@ class BackController extends BaseController
         if ($erreur_form == 1) {
             $this->editPostDetail($postId);
         } else {
-            $postEdit = [];
-            $postEdit = [
-            'userId' => $userId,
-            'title' => $title,
-            'chapo' => $chapo,
-            'content' => $content,
-            'publish' => $publish,
-            'postId' => $postId
-            ];
+            $post = new Post(
+                ['title' => $title,
+                'chapo' => $chapo,
+                'content' => $content,
+                'publish' => $publish,
+                'id' => $postId,
+                'userId' => $userId
+                ]
+            );
             $postManager = new postManager();
-            $postManager->update($postEdit);
+            $postManager->update($post);
             Session::setFlash('successEditPost', 'Votre post a bien été modifié');
             $this->editPostDetail($postId);
         }

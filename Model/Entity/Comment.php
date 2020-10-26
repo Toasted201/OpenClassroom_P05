@@ -10,8 +10,6 @@ class Comment
     private $content;
     private $dateCreate;
     private $statut;
-    private $post = [];
-    //private $_user = [];
 
     //implementer le constructeur
     public function __construct($datas)
@@ -68,11 +66,9 @@ class Comment
         }
     }
 
-    public function setPost($post)
+    public function setPostId($postId)
     {
-        if (is_int($post)) {
-            $this->post = $post;
-        }
+        $this->postId = (int)$postId;
     }
 
     public function setUserId($userId)

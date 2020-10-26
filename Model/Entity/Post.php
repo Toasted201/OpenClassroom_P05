@@ -12,8 +12,6 @@ class Post
     private $publish;
     private $dateCreate;
     private $dateChange;
-    //private $_posts = [];
-    //private $_comments = [];
 
     //implementer le constructeur
     public function __construct($datas)
@@ -79,9 +77,7 @@ class Post
 
     public function setUserId($userId)
     {
-        if (is_string($userId)) {
-            $this->userId = $userId;
-        }
+            $this->userId = (int)$userId;
     }
 
     public function setContent($content)
@@ -106,9 +102,7 @@ class Post
     }
     public function setPublish($publish)
     {
-        if (is_bool($publish)) {
-            $this->publish = $publish;
-        }
+            $this->publish = (int)$publish;
     }
 
     public function setDateCreate($dateCreate)

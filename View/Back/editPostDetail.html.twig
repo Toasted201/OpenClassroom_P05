@@ -33,7 +33,7 @@
             <label for="user">Auteur</label>
             <select class="form-control" id="user" name="userIdEditPost">
                 {% for user in listUsers %}
-                <option> {{ user.id }} </option>
+                <option value = "{{ user.id }}" {% if  user.id == post.userId %}  selected  {% endif %}> {{ user.firstName }} {{ user.lastName }}</option>
                 {% endfor %}
             </select>
          </div>

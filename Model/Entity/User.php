@@ -95,7 +95,7 @@ class User
         }
     }
 
-    public function setLasttName($lastName)
+    public function setLastName($lastName)
     {
         if (is_string($lastName)) {
             $this->lastName = $lastName;

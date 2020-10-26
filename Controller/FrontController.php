@@ -7,6 +7,7 @@ use App\Session;
 use App\Request;
 use Manager\CommentManager;
 use Manager\UserManager;
+use Model\Entity\Comment;
 use Model\Entity\User;
 
 class FrontController extends BaseController
@@ -72,7 +73,7 @@ class FrontController extends BaseController
         echo $this->render('Front/cv.html.twig', []);
     }
 
-    public function contact() //TODO optionnel : "à mettre dans un service"
+    public function contact()
     {
         if (!empty($_POST['identity']) and !empty($_POST['email']) and !empty($_POST['message'])) {
             // = Create the Transport
@@ -165,7 +166,7 @@ class FrontController extends BaseController
             Session::setFlash('errorInscription', 'Votre mail est déjà inscrit');
         }
 
-        //Vérif mots de passe identique
+        //Vérif mots de passe identiques
         if ($pass != $passCtrl) {
             $erreur_form = 1;
             Session::setFlash('errorInscription', 'Les mots de passe ne sont pas identiques');
@@ -177,22 +178,22 @@ class FrontController extends BaseController
             Session::setFlash('errorInscription', 'Votre mail n\'est pas conforme');
         }
 
-        if ($erreur_form == 1) { //s'il y a au moins une erreur
+        if ($erreur_form == 1) {
             $this->authentification();
-        } else //s'il n'y a aucune erreur
-        {
+        } else {
             //Hachage mot de passe
-            $pass_hache = password_hash($_POST['pass'], PASSWORD_DEFAULT);
+            $pass_hache = password_hash($pass, PASSWORD_DEFAULT);
 
-            $userNew = [];
-            $userNew = [
-            'firstName' => $firstName,
-            'lastName' => $lastName,
-            'email' => $mail,
-            'pass' => $pass_hache
-            ];
+            //Nouvelle instance User avec les informations du formulaire
+            $user = new User(
+                ['firstName' => $firstName,
+                'lastName' => $lastName,
+                'email' => $mail,
+                'pass' => $pass_hache
+                ]
+            );
             $userManager = new UserManager();
-            $userManager->add($userNew);
+            $userManager->add($user);
             $this->home(); //TODO utiliser les redirections
         }
     }
@@ -203,14 +204,13 @@ class FrontController extends BaseController
         $content = Request::postData('commentContent');
         $connectedUser = Session::auth();
         $userId = $connectedUser->getId();
-        $commentNew = [];
-        $commentNew = [
-            'postId' => $postId,
+        $comment = new Comment(
+            ['postId' => $postId,
             'content' => $content,
-            'userId' => $userId
-        ];
-        $commentManager = new commentManager();
-        $commentManager->addComment($commentNew);
+            'userId' => $userId]
+        );
+        $commentManager = new CommentManager();
+        $commentManager->addComment($comment);
         Session::setFlash('successComment', 'Votre commentaire a été soumis pour validation');
         $this->post($postId);
     }

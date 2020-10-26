@@ -3,7 +3,7 @@
 namespace Manager;
 
 use App\Request;
-
+ 
 abstract class BaseManager
 {
 

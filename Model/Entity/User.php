@@ -14,10 +14,6 @@ class User
     private $userRole;
     private $dateBF;
     private $nbAttaques;
-    //private $posts = [];
-    //private $comments = [];
-
-
     
     //implementer le constructeur - fonction appelée quand on fait un new User
     public function __construct($datas)

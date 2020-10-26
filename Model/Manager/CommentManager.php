@@ -8,15 +8,15 @@ class CommentManager extends BaseManager
 {
 
 
-    public function addComment($comment)
+    public function addComment(Comment $comment)
     {
         $db = $this->getDb();
         $req = $db->prepare('INSERT INTO comment(postId, userId, content, dateCreate, statut) 
             VALUES(:postId ,:userId, :content, NOW(), "attente")');
         $affectedLines = $req->execute([
-            'userId' => $comment['userId'],
-            'content' => $comment['content'],
-            'postId' => $comment['postId']
+            'userId' => $comment->userId(),
+            'content' => $comment->content(),
+            'postId' => $comment->postId()
         ]);
         $req->closeCursor();
         return $affectedLines;

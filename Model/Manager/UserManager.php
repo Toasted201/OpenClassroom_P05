@@ -10,17 +10,17 @@ class UserManager extends BaseManager
     {
     }
 
-    public function add($userNew) //TODO Optionnel : utiliser class pour écrire
+    public function add(User $userNew)
     {
         $db = $this->getDb();
         $req = $db->prepare('INSERT INTO user(firstName, lastName, email, pass, dateCreate, userRole) 
             VALUES(:firstName, :lastName, :email, :pass, NOW(), "visiteur")');
         $req->execute(
             [
-                'firstName' => $userNew['firstName'],
-                'lastName' => $userNew['lastName'],
-                'email' => $userNew['email'],
-                'pass' => $userNew['pass'],
+                'firstName' => $userNew->firstName(),
+                'lastName' => $userNew->lastName(),
+                'email' => $userNew->email(),
+                'pass' => $userNew->pass(),
             ]
         );
     }
@@ -32,7 +32,7 @@ class UserManager extends BaseManager
         $db->execute('DELETE FROM user WHERE id = ' . $user->getId());
     }
 
-    public function getById($id): ?User //TODO optionnel : req->setFetchMode pour raccourci
+    public function getById($id): ?User
     {
         $db = $this->getDb();
         $req = $db->prepare('SELECT * FROM user WHERE id= :id');
@@ -85,7 +85,8 @@ class UserManager extends BaseManager
     {
         $db = $this->getDb();
         $users = [];
-        $req = $db->query('SELECT * FROM user'); //TODO change query in prepare
+        $req = $db->prepare('SELECT * FROM user');
+        $req->execute();
         while ($data = $req->fetch()) {
             $users[] = new User($data);
         }

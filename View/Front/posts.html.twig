@@ -15,60 +15,6 @@
                     </div>
                 </div>
             {% endif %}  
-        {% endfor %}
-
-<!-- TODO optionnel : Archives TP pour PAGINATION
-On détermine sur quelle page on se trouve
-if(!empty($_GET['page']))
-{
-    $currentPage = (int) strip_tags($_GET['page']);
-}
-else
-{
-    $currentPage = 1;
-}
-
-// On determine combien de billets existent
-$rows = $bdd->query('SELECT COUNT(*) AS nb_billet FROM billets');
-$row = $rows->fetch();
-$rows->closeCursor();
-
-// On determnie le nombre de page
-$parPage = 2; //nb de billet par page voulu
-$pages = ceil($row['nb_billet'] / $parPage);
-
-//affichage billets
-$premier = ($currentPage * $parPage) - $parPage + 1;
-$dernier = $premier + $parPage -1;
-$sql='SELECT id, titre, contenu, DATE_FORMAT(creation_date, "%d/%m/%Y à %H:%i:%s") AS creation_date_fr FROM billets';
-$req = $bdd->prepare($sql . ' WHERE id BETWEEN ' . $premier . ' AND ' . $dernier . ' AND publie=1 ORDER BY creation_date DESC');
-$req->execute();
-*/
-         <div>
-            <ul class="pagination pagination-sm">
-              <li class="page-item disabled">
-              <a class="page-link" href="#">&laquo;</a>
-              </li>
-              <li class="page-item active">
-                <a class="page-link" href="#">1</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="#">2</a>
-              </li>
-                <li class="page-item">
-              <a class="page-link" href="#">3</a>
-                </li>
-              <li class="page-item">
-                <a class="page-link" href="#">4</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="#">5</a>
-              </li>
-                <li class="page-item">
-                <a class="page-link" href="#">&raquo;</a>
-              </li>
-            </ul>
-          </div>
--->          
+        {% endfor %}       
     </div>
 {% endblock %}

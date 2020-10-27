@@ -37,34 +37,38 @@ class BackController extends BaseController
         $chapo = Request::postData('chapoNewPost');
         $content = Request::postData('contentNewPost');
         $publish = Request::postData('publishNewPost');
-        $erreur_form = 0;
-        if (!isset($userId) or !isset($title) or !isset($chapo) or !isset($content) or !isset($publish)) {
-            $erreur_form = 1;
-            Session::setFlash('errorNewPost', 'Il y a une erreur dans l\'envoi du formulaire');
+        $error_form = false;
+        if (!$error_form) {
+            if (!isset($userId) or !isset($title) or !isset($chapo) or !isset($content) or !isset($publish)) {
+                $error_form = true;
+                Session::setFlash('errorNewPost', 'Il y a une erreur dans l\'envoi du formulaire');
+            }
         }
-        if ($userRole != 'admin') {
-            $erreur_form = 1;
-            Session::setFlash('errorNewPost', 'Vous n\êtes pas connecté en tant qu\'admin');
+        if (!$error_form) {
+            if ($userRole != 'admin') {
+                $error_form = true;
+                Session::setFlash('errorNewPost', 'Vous n\êtes pas connecté en tant qu\'admin');
+            }
         }
-        if ($erreur_form == 1) {
-            header("Location: ?action=newPost");
-            exit;
-        } else {
-            $post = new Post(
-                ['userId' => $userId,
-                'title' => $title,
-                'chapo' => $chapo,
-                'content' => $content,
-                'publish' => $publish
-                ]
-            );
-            $postManager = new postManager();
-            $postManager->add($post);
-            Session::setFlash('successNewPost', 'Votre post a bien été enregistré');
-            header("Location: ?action=newPost");
-            exit;
+        if ($error_form) {
+                header("Location: ?action=newPost");
+                exit;
         }
+        $post = new Post(
+            ['userId' => $userId,
+            'title' => $title,
+            'chapo' => $chapo,
+            'content' => $content,
+            'publish' => $publish
+            ]
+        );
+        $postManager = new postManager();
+        $postManager->add($post);
+        Session::setFlash('successNewPost', 'Votre post a bien été enregistré');
+        header("Location: ?action=newPost");
+        exit;
     }
+
 
     public function editPostList()
     {
@@ -99,7 +103,7 @@ class BackController extends BaseController
         $postId = Request::postData('postId');
         $connectedUser = Session::auth();
         $userRole = $connectedUser->userRole();
-        $erreur_form = 0;
+        $error_form = false;
         if (
             !isset($title) or
             !isset($chapo) or
@@ -108,32 +112,33 @@ class BackController extends BaseController
             !isset($publish) or
             !isset($postId)
         ) {
-            $erreur_form = 1;
+            $error_form = true;
             Session::setFlash('errorEditPost', 'Il y a une erreur dans l\'envoi du formulaire');
         }
-        if ($userRole != 'admin') {
-            $erreur_form = 1;
-            Session::setFlash('errorEditPost', 'Vous n\êtes pas connecté en tant qu\'admin');
+        if (!$error_form) {
+            if ($userRole != 'admin') {
+                $error_form = true;
+                Session::setFlash('errorEditPost', 'Vous n\êtes pas connecté en tant qu\'admin');
+            }
         }
-        if ($erreur_form == 1) {
-            header("Location: ?action=editPostDetail&postId=$postId");
-            exit;
-        } else {
-            $post = new Post(
-                ['title' => $title,
-                'chapo' => $chapo,
-                'content' => $content,
-                'publish' => $publish,
-                'id' => $postId,
-                'userId' => $userId
-                ]
-            );
-            $postManager = new postManager();
-            $postManager->update($post);
-            Session::setFlash('successEditPost', 'Votre post a bien été modifié');
+        if ($error_form) {
             header("Location: ?action=editPostDetail&postId=$postId");
             exit;
         }
+        $post = new Post(
+            ['title' => $title,
+            'chapo' => $chapo,
+            'content' => $content,
+            'publish' => $publish,
+            'id' => $postId,
+            'userId' => $userId
+            ]
+        );
+        $postManager = new postManager();
+        $postManager->update($post);
+        Session::setFlash('successEditPost', 'Votre post a bien été modifié');
+        header("Location: ?action=editPostDetail&postId=$postId");
+        exit;
     }
 
     public function validComment()
@@ -153,31 +158,32 @@ class BackController extends BaseController
         $id = Request::postData('commentId');
         $connectedUser = Session::auth();
         $userRole = $connectedUser->userRole();
-        $erreur_form = false ;
+        $error_form = false ;
         if (
             !isset($statut) or
             !isset($id)
         ) {
-            $erreur_form = true;
+            $error_form = true;
             Session::setFlash('errorValidComment', 'Il y a une erreur dans l\'envoi du formulaire');
         }
-        if ($userRole != 'admin') {
-            $erreur_form = true;
-            Session::setFlash('errorValidPost', 'Vous n\êtes pas connecté en tant qu\'admin');
+        if (!$error_form) {
+            if ($userRole != 'admin') {
+                $error_form = true;
+                Session::setFlash('errorValidPost', 'Vous n\êtes pas connecté en tant qu\'admin');
+            }
         }
-        if ($erreur_form == true) {
-            header("Location: ?action=validComment");
-            exit;
-        } else {
-            $statutUpdate = [];
-            $statutUpdate = [
-            'statut' => $statut,
-            'id' => $id
-            ];
-            $commentManager = new CommentManager();
-            $commentManager->statutUpdate($statutUpdate);
+        if ($error_form) {
             header("Location: ?action=validComment");
             exit;
         }
+        $statutUpdate = [];
+        $statutUpdate = [
+        'statut' => $statut,
+        'id' => $id
+        ];
+        $commentManager = new CommentManager();
+        $commentManager->statutUpdate($statutUpdate);
+        header("Location: ?action=validComment");
+        exit;
     }
 }

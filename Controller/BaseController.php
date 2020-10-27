@@ -31,18 +31,5 @@ abstract class BaseController
         }
         $parametres['userRole'] = $userRole;
         return $this->twig->render($masque, $parametres);
-    //TODO new TwigFunction pour les flash??
     }
-
-    /* methode mise dans Session
-    protected function getConnectedUser(): ?User
-    {
-
-        if (empty(Session::connectedUser())) {
-            $connectedUser = null;
-        } else {
-            $connectedUser = unserialize(Session::get('connectedUser'));
-        }
-        return $connectedUser;
-    }*/
 }

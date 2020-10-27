@@ -37,7 +37,7 @@ class BackController extends BaseController
         $chapo = Request::postData('chapoNewPost');
         $content = Request::postData('contentNewPost');
         $publish = Request::postData('publishNewPost');
-        $erreur_form = 0; // TODO refactor erreur_form with true/false in each files
+        $erreur_form = 0;
         if (!isset($userId) or !isset($title) or !isset($chapo) or !isset($content) or !isset($publish)) {
             $erreur_form = 1;
             Session::setFlash('errorNewPost', 'Il y a une erreur dans l\'envoi du formulaire');
@@ -47,7 +47,8 @@ class BackController extends BaseController
             Session::setFlash('errorNewPost', 'Vous n\êtes pas connecté en tant qu\'admin');
         }
         if ($erreur_form == 1) {
-            $this->newPost();
+            header("Location: ?action=newPost");
+            exit;
         } else {
             $post = new Post(
                 ['userId' => $userId,
@@ -60,7 +61,8 @@ class BackController extends BaseController
             $postManager = new postManager();
             $postManager->add($post);
             Session::setFlash('successNewPost', 'Votre post a bien été enregistré');
-            $this->newPost(); //TODO utiliser les redirections dans tous les controllers
+            header("Location: ?action=newPost");
+            exit;
         }
     }
 
@@ -114,7 +116,8 @@ class BackController extends BaseController
             Session::setFlash('errorEditPost', 'Vous n\êtes pas connecté en tant qu\'admin');
         }
         if ($erreur_form == 1) {
-            $this->editPostDetail($postId);
+            header("Location: ?action=editPostDetail&postId=$postId");
+            exit;
         } else {
             $post = new Post(
                 ['title' => $title,
@@ -128,7 +131,8 @@ class BackController extends BaseController
             $postManager = new postManager();
             $postManager->update($post);
             Session::setFlash('successEditPost', 'Votre post a bien été modifié');
-            $this->editPostDetail($postId);
+            header("Location: ?action=editPostDetail&postId=$postId");
+            exit;
         }
     }
 
@@ -162,7 +166,8 @@ class BackController extends BaseController
             Session::setFlash('errorValidPost', 'Vous n\êtes pas connecté en tant qu\'admin');
         }
         if ($erreur_form == true) {
-            $this->validComment();
+            header("Location: ?action=validComment");
+            exit;
         } else {
             $statutUpdate = [];
             $statutUpdate = [
@@ -170,8 +175,9 @@ class BackController extends BaseController
             'id' => $id
             ];
             $commentManager = new CommentManager();
-            $commentManager -> statutUpdate($statutUpdate);
-            $this->validComment();
+            $commentManager->statutUpdate($statutUpdate);
+            header("Location: ?action=validComment");
+            exit;
         }
     }
 }

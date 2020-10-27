@@ -99,16 +99,13 @@ class FrontController extends BaseController
             ;
 
             // = Send the message
-            //TODO optionnel : doublon code ci-dessous à améliorer
             $result = $mailer->send($message);
             Session::setFlash('successContact', 'Votre message a été envoyé');
-            header("Location: ?action=");
-            exit;
         } else {
             Session::setFlash('errorContact', 'Votre message n\'a pas pu être envoyé');
+        }
             header("Location: ?action=");
             exit;
-        }
     }
 
     public function connexion()

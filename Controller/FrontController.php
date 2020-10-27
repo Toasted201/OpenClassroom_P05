@@ -61,10 +61,12 @@ class FrontController extends BaseController
                 
         $errorConnexion = Session::Flash('errorConnexion');
         $errorInscription = Session::Flash('errorInscription');
+        $successInscription = Session::Flash('successInscription');
         echo $this->render(
             'Front/authentification.html.twig',
             ['flashError' => $errorConnexion,
-            'flashErrorInscription' => $errorInscription]
+            'flashErrorInscription' => $errorInscription,
+            'flashSuccessInscription' => $successInscription]
         );
     }
 
@@ -100,13 +102,14 @@ class FrontController extends BaseController
             //TODO optionnel : doublon code ci-dessous à améliorer
             $result = $mailer->send($message);
             Session::setFlash('successContact', 'Votre message a été envoyé');
-            $this->home();
+            header("Location: ?action=");
+            exit;
         } else {
             Session::setFlash('errorContact', 'Votre message n\'a pas pu être envoyé');
-            $this->home();
+            header("Location: ?action=");
+            exit;
         }
     }
-            //TODO utiliser error ++ , avec un si error >0 alors //
 
     public function connexion()
     {
@@ -117,20 +120,24 @@ class FrontController extends BaseController
         $user = $userManager->getByMail($mail); //récupération des données du user depuis son mail
         if ($user === null) {
             Session::setFlash('errorConnexion', 'Le mail n\'existe pas');
-            $this->authentification();
+            header("Location: ?action=authentification");
+            exit;
         } else {
             if (($user-> nbAttaques() > 20) and ($user->dateBF() === $dateJour)) {
                 Session::setFlash('errorConnexion', 'Trop de tentative de connexion pour aujoud\'hui ');
-                $this->authentification();
+                header("Location: ?action=authentification");
+                exit;
             } else {
                 $checkPass = $user->checkPass($passPlain);
                 if (!$checkPass) {
                     Session::setFlash('errorConnexion', 'Le mot de passe est incorrect ');
                     $userManager->attaques($user);
-                    $this->authentification();
+                    header("Location: ?action=authentification");
+                    exit;
                 } else {
                     Session::set('connectedUser', serialize($user));
-                    $this->home();
+                    header("Location: ?action=");
+                    exit;
                 }
             }
         }
@@ -139,7 +146,8 @@ class FrontController extends BaseController
     public function deconnexion()
     {
         Session::stop();
-        $this->home();
+        header("Location: ?action=");
+        exit;
     }
 
     public function inscription()
@@ -152,38 +160,42 @@ class FrontController extends BaseController
 
         $erreur_form = 0;
 
-        //vérifie les $POST
+        // vérifie les $POST
         if (!isset($firstName) or !isset($lastName) or !isset($mail) or !isset($pass) or !isset($passCtrl)) {
             $erreur_form = 1;
-            echo 'Il y a eu une erreur';
+            Session::setFlash('errorInscription', 'Il y a eu une erreur');
         }
-                
-        //Verif si le mail existe
-        $userManager = new UserManager();
-        $userMail = $userManager->getByMail($mail);
-        if (isset($userMail)) {
-            $erreur_form = 1;
-            Session::setFlash('errorInscription', 'Votre mail est déjà inscrit');
+        
+         //Verif si le mail existe dans la db
+        if ($erreur_form = 0) {
+            $userManager = new UserManager();
+            $userMail = $userManager->getByMail($mail);
+            if (isset($userMail)) {
+                $erreur_form = 1;
+                Session::setFlash('errorInscription', 'Votre mail est déjà inscrit');
+            }
         }
-
-        //Vérif mots de passe identiques
-        if ($pass != $passCtrl) {
-            $erreur_form = 1;
-            Session::setFlash('errorInscription', 'Les mots de passe ne sont pas identiques');
+        //Vérif si les mots de passe du formulaire sont identiques
+        if ($erreur_form = 0) {
+            if ($pass != $passCtrl) {
+                $erreur_form = 1;
+                Session::setFlash('errorInscription', 'Les mots de passe ne sont pas identiques');
+            }
         }
-
-        //Verif si le mail est au format xx@xx.xx
-        if (!preg_match('#^([\w\.-]+)@([\w\.-]+)(\.[a-z]{2,4})$#', $mail)) {
-            $erreur_form = 1;
-            Session::setFlash('errorInscription', 'Votre mail n\'est pas conforme');
+        //Verif si le mail du formulaire est au format xx@xx.xx
+        if ($erreur_form = 0) {
+            if (!preg_match('#^([\w\.-]+)@([\w\.-]+)(\.[a-z]{2,4})$#', $mail)) {
+                $erreur_form = 1;
+                Session::setFlash('errorInscription', 'Votre mail n\'est pas conforme');
+            }
         }
 
         if ($erreur_form == 1) {
-            $this->authentification();
+            header("Location: ?action=authentification");
+            exit;
         } else {
             //Hachage mot de passe
             $pass_hache = password_hash($pass, PASSWORD_DEFAULT);
-
             //Nouvelle instance User avec les informations du formulaire
             $user = new User(
                 ['firstName' => $firstName,
@@ -194,7 +206,9 @@ class FrontController extends BaseController
             );
             $userManager = new UserManager();
             $userManager->add($user);
-            $this->home(); //TODO utiliser les redirections
+            Session::setFlash('successInscription', 'Votre compte été créé, vous pouvez vous connecter');
+            header("Location: ?action=authentification");
+            exit;
         }
     }
 
@@ -212,6 +226,7 @@ class FrontController extends BaseController
         $commentManager = new CommentManager();
         $commentManager->addComment($comment);
         Session::setFlash('successComment', 'Votre commentaire a été soumis pour validation');
-        $this->post($postId);
+        header("Location: ?action=post&postId=$postId");
+        exit;
     }
 }

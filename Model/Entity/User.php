@@ -108,13 +108,13 @@ class User
     public function setPass($pass)
     {
         if (!empty($pass)) {
-            $this->pass = password_hash($pass, PASSWORD_DEFAULT);
+            $this->pass = $pass;
         }
     }
 
-    public function checkPass($pass)
+    public function checkPass($passPlain)
     {
-        return password_verify($pass, $this->pass);
+        return password_verify($passPlain, $this->pass);
     }
 
     public function setDateCreate($dateCreate)

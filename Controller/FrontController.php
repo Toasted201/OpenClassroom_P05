@@ -112,9 +112,9 @@ class FrontController extends BaseController
     {
         $dateJour = date('Y-m-d');
         $mail = Request::postData('mailConnect');
-        $pass = Request::postData('passConnect');
+        $passPlain = Request::postData('passConnect'); //récupération du mot de pass saisie
         $userManager = new UserManager();
-        $user = $userManager->getByMail($mail);
+        $user = $userManager->getByMail($mail); //récupération des données du user depuis son mail
         if ($user === null) {
             Session::setFlash('errorConnexion', 'Le mail n\'existe pas');
             $this->authentification();
@@ -123,8 +123,8 @@ class FrontController extends BaseController
                 Session::setFlash('errorConnexion', 'Trop de tentative de connexion pour aujoud\'hui ');
                 $this->authentification();
             } else {
-                $isPasswordCorrect = password_verify($pass, $user->pass());
-                if (!$isPasswordCorrect) {
+                $checkPass = $user->checkPass($passPlain);
+                if (!$checkPass) {
                     Session::setFlash('errorConnexion', 'Le mot de passe est incorrect ');
                     $userManager->attaques($user);
                     $this->authentification();

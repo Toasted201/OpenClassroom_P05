@@ -13,13 +13,11 @@ class Post
     private $dateCreate;
     private $dateChange;
 
-    //implementer le constructeur
     public function __construct($datas)
     {
         $this->hydrate($datas);
     }
 
-    //hydratation
     public function hydrate(array $data)
     {
         foreach ($data as $key => $value) {
@@ -29,7 +27,6 @@ class Post
             }
         }
     }
-    // Getters
 
     public function getId()
     {
@@ -63,9 +60,6 @@ class Post
     {
         return $this->dateChange;
     }
-
-
-    // Setters
 
     public function setId($id)
     {

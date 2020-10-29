@@ -1,78 +1,84 @@
 <!DOCTYPE html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{% block title %}{% endblock %}</title>
-    <meta name="{% block metaName %}{% endblock %}" content="{% block metaContent %}{% endblock %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/bootstrap.css" media="screen">
-    <link rel="stylesheet" href="css/custom.min.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>
+		{% block title %}{% endblock %}
+	</title>
+	<meta name="{% block metaName %}{% endblock %}" content="{% block metaContent %}{% endblock %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.css" media="screen">
+	<link rel="stylesheet" href="css/custom.min.css">
 </head>
 
 <body>
-    <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="?action="><img src="img/logo.png" alt="helixsi"></img></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>    
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                    <a class="nav-link" href="?action=posts">Articles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="?action=curriculum">Mon CV</a>
-                    </li>
-                    <li class="nav-item">
-                        {% if firstName is empty %}<a class="nav-link" href="?action=authentification">Connexion</a>
-                        {% else %} <a class="nav-link" href="?action=deconnexion"> Déconnexion ({{firstName}}) </a>
-                        {% endif %} 
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+	<div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+		<div class="container">
+			<a class="navbar-brand" href="?action="><img src="img/logo.png" alt="helixsi"></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="?action=posts">Articles</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="?action=curriculum">Mon CV</a>
+					</li>
+					<li class="nav-item">
+						{% if firstName is empty %}
+							<a class="nav-link" href="?action=authentification">Connexion</a>
+						{% else %}
+							<a class="nav-link" href="?action=deconnexion">Déconnexion ({{firstName}})</a>
+						{% endif %}
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 
-    <div class="container">
-    <div class="card bg-light text-center my-auto" style="width:80%;">
-        <div class="row">
-            <div class="col-sm-4 my-3">
-                <h3 class="card-title">Julie XAXA</h3>
-            </div>
-            <div class="col-sm-8 my-3">
-                <p class="card-text">"Je vous accompagne du <strong>métier</strong> à la <strong>mise en oeuvre technique</strong>."<p>
-            </div>
-        </div>
-    </div>
-    </div>
+	<div class="container">
+		<div class="card bg-light text-center my-auto">
+			<div class="row">
+				<div class="col-sm-4 my-3">
+					<h3 class="card-title">Julie XAXA</h3>
+				</div>
+				<div class="col-sm-8 my-3">
+					<p class="card-text">"Je vous accompagne du <strong>métier</strong> à la <strong>mise en oeuvre technique</strong>."</p>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <div class="container">
-        <div class="bs-docs-section">
-                <div id="content">{% block content %}{% endblock %}</div>
-        </div>  
+	<div class="container">
+		<div class="bs-docs-section">
+			<div id="content"> {% block content %}{% endblock %}
+				</div>
+			</div>
 
-    <div class="bs-component p-4">
-        <div class="row">
-            {% if userRole == 'admin' %}
-            <div class="col-sm-4">
-                <a button type="button" class="btn btn-warning" href="?action=admin">Admin</button></a>
-            </div>
-            {% endif %} 
-            <div class="col-sm-8">
-                <p class="text-right">
-                    <a href="https://github.com/Toasted201" target="_blank">
-                        <img src="img/github.png" alt="Logo GitHub" width="40" height="40"></img>
-                    </a>
-                    <a href="https://fr.linkedin.com/school/openclassrooms/" target="_blank"><img src="img/linkedin.png"  alt="Logo Linkedin" width="40" height="40"></img></a>
-                    <a href="https://twitter.com/openclassrooms?lang=fr" target="_blank"><img src="img/twitter.png" alt="Logo Twitter" width="40" height="40"></img></a>
-                </p>    
-            </div>
-        </div>
-    </div>
+			<div class="bs-component p-4">
+				<div class="row">
+					{% if userRole == 'admin' %}
+						<div class="col-sm-4">
+							<a button type="button" class="btn btn-warning" href="?action=admin">Admin</button>
+						</a>
+					</div>
+				{% endif %}
+				<div class="col-sm-8">
+					<p class="text-right">
+						<a href="https://github.com/Toasted201" target="_blank">
+							<img src="img/github.png" alt="Logo GitHub" width="40" height="40">
+						</a>
+						<a href="https://fr.linkedin.com/school/openclassrooms/" target="_blank"><img src="img/linkedin.png" alt="Logo Linkedin" width="40" height="40"></a>
+						<a href="https://twitter.com/openclassrooms?lang=fr" target="_blank"><img src="img/twitter.png" alt="Logo Twitter" width="40" height="40"></a>
+					</p>
+				</div>
+			</div>
+		</div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-</body>
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	</body>
 </html>

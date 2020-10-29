@@ -1,20 +1,29 @@
 {% extends "Template/base.html.twig" %}
 
-{% block title %}Liste des articles{% endblock %}
+{% block title %}Liste des articles
+{% endblock %}
+{% block metaName %}Posts
+{% endblock %}
+{% block metaContent %}La liste des articles
+{% endblock %}
 
 {% block content %}
-    <div class="bs-component">
-        {% for post in listPosts %}
-            {% if post.publish == 1 %}
-                <div class="card" style="width: 100%;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ post.title }}</h5>
-                        <p class="card-text"> {{ post.chapo }} </p>
-                        <p class="card-text"> {{ post.dateLast }} </p>
-                        <a href="?action=post&postId={{ post.id }}" class="btn btn-primary">La suite</a>
-                    </div>
-                </div>
-            {% endif %}  
-        {% endfor %}       
-    </div>
+	<div class="bs-component">
+		{% for post in listPosts %}
+			{% if post.publish == 1 %}
+				<div class="card" style="width: 100%;">
+					<div class="card-body">
+						<h5 class="card-title">{{ post.title }}</h5>
+						<p class="card-text">
+							{{ post.chapo }}
+						</p>
+						<p class="card-text">
+							{{ post.dateLast }}
+						</p>
+						<a href="?action=post&postId={{ post.id }}" class="btn btn-primary">La suite</a>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
 {% endblock %}

@@ -64,22 +64,6 @@ class UserManager extends BaseManager
             return $user;
         }
     }
-    
-    public function getFromSession($idSession): ?User
-    {
-        $db = $this->getDb();
-        $req = $db->prepare('SELECT * FROM user WHERE id = :id');
-        $req->execute(
-            ['id' => $idSession]
-        );
-        $data = $req->fetch();
-        if ($data === false) {
-            return null;
-        } else {
-            return new User($data);
-        }
-    }
-
 
     public function getList(): array
     {
@@ -110,7 +94,7 @@ class UserManager extends BaseManager
         );
     }
 
-    public function attaques(User $user) // ajoute 1 attaque, à date du jour, à l'utilisateur
+    public function attaques(User $user) // ajoute 1 attaque, à date du jour, à l'utilisateur - reset si nouvelle date
     {
         $db = $this->getDb();
         $dateJour = date('Y-m-d');

@@ -15,14 +15,11 @@ class User
     private $dateBF;
     private $nbAttaques;
     
-    //implementer le constructeur - fonction appelée quand on fait un new User
     public function __construct($datas)
     {
         $this->hydrate($datas);
     }
 
-
-    //hydratation
     public function hydrate(array $data)
     {
         foreach ($data as $key => $value) {
@@ -33,7 +30,6 @@ class User
         }
     }
 
-    // Getters
     public function getId()
     {
         return $this->id;
@@ -75,7 +71,6 @@ class User
         return $this->nbAttaques;
     }
 
-    // Setters
     public function setId($id)
     {
         $id = (int) $id;
@@ -143,8 +138,4 @@ class User
     {
         $this->dateBF = $dateBF;
     }
-    /*public function isLoggedIn()
-    {
-        return !empty($_SESSION['firstName']);
-    }*/
 }

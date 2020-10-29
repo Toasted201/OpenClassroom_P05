@@ -11,14 +11,11 @@ class Comment
     private $dateCreate;
     private $statut;
 
-    //implementer le constructeur
     public function __construct($datas)
     {
         $this->hydrate($datas);
     }
 
-
-    //hydratation
     public function hydrate(array $data)
     {
         foreach ($data as $key => $value) {
@@ -29,7 +26,6 @@ class Comment
         }
     }
 
-    // Getters
     public function getId()
     {
         return $this->id;
@@ -54,9 +50,6 @@ class Comment
     {
         return $this->statut;
     }
-
-
-    // Setters
 
     public function setId($id)
     {

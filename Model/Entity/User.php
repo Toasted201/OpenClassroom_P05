@@ -143,8 +143,4 @@ class User
     {
         $this->dateBF = $dateBF;
     }
-    /*public function isLoggedIn()
-    {
-        return !empty($_SESSION['firstName']);
-    }*/
 }

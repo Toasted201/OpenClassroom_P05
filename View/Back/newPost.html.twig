@@ -1,11 +1,13 @@
 {% extends "Template/baseBack.html.twig" %}
 
 {% block title %}Nouveau Post{% endblock %}
+{% block metaName %}NewPost{% endblock %}
+{% block metaContent %}Création d'un post{% endblock %}
+{% block part %}Nouveau Post{% endblock %}
 
 {% block content %}
 <form method="post" action="?action=addPost">
     <fieldset>
-        <h4>Nouveau Post</h4>
         <div class="form-group">
             <label for="titreNewPost">Titre</label>
             <input type="text" class="form-control" id="title" name='titleNewPost' maxlenght="255" cols="50" required>
@@ -46,5 +48,4 @@
     </div>
     {% endif %}
 {% endif %}  
-<a class="btn btn-primary btn-sm float-right" href="?action=admin" role="button">Retour Accueil Admin</a>
 {% endblock %}

@@ -21,7 +21,7 @@ class PostManager extends BaseManager
                     CASE 
                         WHEN dateChange IS null THEN DATE_FORMAT(dateCreate, \'%d/%m/%Y\') 
                         ELSE DATE_FORMAT(dateChange, \'%d/%m/%Y\') END AS dateLast
-                    FROM post ORDER BY dateLast DESC');
+                    FROM post ORDER BY dateCreate DESC');
         $req->execute();
         $posts = $req->fetchAll();
         $req->closeCursor();

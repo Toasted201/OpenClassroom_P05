@@ -65,7 +65,7 @@ class UserManager extends BaseManager
         }
     }
     
-    public function getFromSession($idSession): ?User
+/*  public function getFromSession($idSession): ?User
     {
         $db = $this->getDb();
         $req = $db->prepare('SELECT * FROM user WHERE id = :id');
@@ -79,7 +79,7 @@ class UserManager extends BaseManager
             return new User($data);
         }
     }
-
+*/
 
     public function getList(): array
     {

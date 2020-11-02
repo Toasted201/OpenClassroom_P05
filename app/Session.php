@@ -17,6 +17,7 @@ class Session
     {
         if (!self::$instance) {
             session_start();
+            self::$instance = true;
         }
 
         session_regenerate_id();

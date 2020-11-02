@@ -159,6 +159,7 @@ class FrontController extends BaseController
         $pass = Request::postData('passInscription');
         $passCtrl = Request::postData('passInscriptionCtrl');
 
+
         $error_form = false;
         // vérifie les $POST
         if (!isset($firstName) or !isset($lastName) or !isset($mail) or !isset($pass) or !isset($passCtrl)) {
@@ -183,7 +184,7 @@ class FrontController extends BaseController
         }
         //Verif si le mail du formulaire est au format xx@xx.xx
         if (!$error_form) {
-            if (!preg_match('#^([\w\.-]+)@([\w\.-]+)(\.[a-z]{2,4})$#', $mail)) {
+            if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
                 $error_form = true;
                 Session::setFlash('errorInscription', 'Votre mail n\'est pas conforme');
             }

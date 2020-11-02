@@ -10,17 +10,17 @@ class UserManager extends BaseManager
     {
     }
 
-    public function add($userNew) //TODO Optionnel : utiliser class pour écrire
+    public function add(User $userNew)
     {
         $db = $this->getDb();
         $req = $db->prepare('INSERT INTO user(firstName, lastName, email, pass, dateCreate, userRole) 
             VALUES(:firstName, :lastName, :email, :pass, NOW(), "visiteur")');
         $req->execute(
             [
-                'firstName' => $userNew['firstName'],
-                'lastName' => $userNew['lastName'],
-                'email' => $userNew['email'],
-                'pass' => $userNew['pass'],
+                'firstName' => $userNew->firstName(),
+                'lastName' => $userNew->lastName(),
+                'email' => $userNew->email(),
+                'pass' => $userNew->pass(),
             ]
         );
     }
@@ -32,7 +32,7 @@ class UserManager extends BaseManager
         $db->execute('DELETE FROM user WHERE id = ' . $user->getId());
     }
 
-    public function getById($id): ?User //TODO optionnel : req->setFetchMode pour raccourci
+    public function getById($id): ?User
     {
         $db = $this->getDb();
         $req = $db->prepare('SELECT * FROM user WHERE id= :id');
@@ -64,28 +64,13 @@ class UserManager extends BaseManager
             return $user;
         }
     }
-    
-    public function getFromSession($idSession): ?User
-    {
-        $db = $this->getDb();
-        $req = $db->prepare('SELECT * FROM user WHERE id = :id');
-        $req->execute(
-            ['id' => $idSession]
-        );
-        $data = $req->fetch();
-        if ($data === false) {
-            return null;
-        } else {
-            return new User($data);
-        }
-    }
-
 
     public function getList(): array
     {
         $db = $this->getDb();
         $users = [];
-        $req = $db->query('SELECT * FROM user'); //TODO change query in prepare
+        $req = $db->prepare('SELECT * FROM user');
+        $req->execute();
         while ($data = $req->fetch()) {
             $users[] = new User($data);
         }
@@ -109,7 +94,7 @@ class UserManager extends BaseManager
         );
     }
 
-    public function attaques(User $user) // ajoute 1 attaque, à date du jour, à l'utilisateur
+    public function attaques(User $user) // ajoute 1 attaque, à date du jour, à l'utilisateur - reset si nouvelle date
     {
         $db = $this->getDb();
         $dateJour = date('Y-m-d');

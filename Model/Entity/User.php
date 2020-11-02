@@ -14,19 +14,12 @@ class User
     private $userRole;
     private $dateBF;
     private $nbAttaques;
-    //private $posts = [];
-    //private $comments = [];
-
-
     
-    //implementer le constructeur - fonction appelée quand on fait un new User
     public function __construct($datas)
     {
         $this->hydrate($datas);
     }
 
-
-    //hydratation
     public function hydrate(array $data)
     {
         foreach ($data as $key => $value) {
@@ -37,7 +30,6 @@ class User
         }
     }
 
-    // Getters
     public function getId()
     {
         return $this->id;
@@ -79,7 +71,6 @@ class User
         return $this->nbAttaques;
     }
 
-    // Setters
     public function setId($id)
     {
         $id = (int) $id;
@@ -112,13 +103,13 @@ class User
     public function setPass($pass)
     {
         if (!empty($pass)) {
-            $this->pass = password_hash($pass, PASSWORD_DEFAULT);
+            $this->pass = $pass;
         }
     }
 
-    public function checkPass($pass)
+    public function checkPass($passPlain)
     {
-        return password_verify($pass, $this->pass);
+        return password_verify($passPlain, $this->pass);
     }
 
     public function setDateCreate($dateCreate)
@@ -147,8 +138,4 @@ class User
     {
         $this->dateBF = $dateBF;
     }
-    /*public function isLoggedIn()
-    {
-        return !empty($_SESSION['firstName']);
-    }*/
 }

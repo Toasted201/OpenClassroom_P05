@@ -184,7 +184,7 @@ class FrontController extends BaseController
         }
         //Verif si le mail du formulaire est au format xx@xx.xx
         if (!$error_form) {
-            if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+            if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
                 $error_form = true;
                 Session::setFlash('errorInscription', 'Votre mail n\'est pas conforme');
             }

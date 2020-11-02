@@ -4,7 +4,6 @@ use Controller\FrontController;
 use Controller\BackController;
 use App\{Request, Session, Router};
 
-// charger autoloader
 require '../vendor/autoload.php';
 Session::start();
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 1));

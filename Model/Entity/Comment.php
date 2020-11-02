@@ -10,17 +10,12 @@ class Comment
     private $content;
     private $dateCreate;
     private $statut;
-    private $post = [];
-    //private $_user = [];
 
-    //implementer le constructeur
     public function __construct($datas)
     {
         $this->hydrate($datas);
     }
 
-
-    //hydratation
     public function hydrate(array $data)
     {
         foreach ($data as $key => $value) {
@@ -31,7 +26,6 @@ class Comment
         }
     }
 
-    // Getters
     public function getId()
     {
         return $this->id;
@@ -57,9 +51,6 @@ class Comment
         return $this->statut;
     }
 
-
-    // Setters
-
     public function setId($id)
     {
         $id = (int) $id;
@@ -68,11 +59,9 @@ class Comment
         }
     }
 
-    public function setPost($post)
+    public function setPostId($postId)
     {
-        if (is_int($post)) {
-            $this->post = $post;
-        }
+        $this->postId = (int)$postId;
     }
 
     public function setUserId($userId)

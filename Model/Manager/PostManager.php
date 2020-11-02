@@ -13,7 +13,7 @@ class PostManager extends BaseManager
     public function getPosts()
     {
         $db = $this->getDb();
-        $req = $db->query('SELECT id, 
+        $req = $db->prepare('SELECT id, 
                     title, 
                     chapo, 
                     userId,
@@ -21,7 +21,8 @@ class PostManager extends BaseManager
                     CASE 
                         WHEN dateChange IS null THEN DATE_FORMAT(dateCreate, \'%d/%m/%Y\') 
                         ELSE DATE_FORMAT(dateChange, \'%d/%m/%Y\') END AS dateLast
-                    FROM post ORDER BY dateLast DESC');
+                    FROM post ORDER BY dateCreate DESC');
+        $req->execute();
         $posts = $req->fetchAll();
         $req->closeCursor();
         return $posts;
@@ -30,7 +31,7 @@ class PostManager extends BaseManager
     public function getPostsHome()
     {
         $db = $this->getDb();
-        $req = $db->query('SELECT id, 
+        $req = $db->prepare('SELECT id, 
                     title, 
                     content, 
                     chapo, 
@@ -40,6 +41,7 @@ class PostManager extends BaseManager
                     FROM post 
                     WHERE publish=1
                     ORDER BY dateCreate DESC LIMIT 3');
+        $req->execute();
         $posts = $req->fetchAll();
         $req->closeCursor();
         return $posts;
@@ -69,23 +71,23 @@ class PostManager extends BaseManager
         return $post;
     }
 
-    public function add($newPost)
+    public function add(Post $Post)
     {
         $db = $this->getDb();
         $req = $db->prepare('INSERT INTO post(userId, title, chapo, content, publish, dateCreate)
                     VALUES(:userId, :title, :chapo, :content, :publish, NOW())');
         $req->execute(
             [
-                'userId' => $newPost['userId'],
-                'title' => $newPost['title'],
-                'chapo' => $newPost['chapo'],
-                'content' => $newPost['content'],
-                'publish' => $newPost['publish']
+                'userId' => $Post->userId(),
+                'title' => $Post->title(),
+                'chapo' => $Post->chapo(),
+                'content' => $Post->content(),
+                'publish' => $Post->publish()
             ]
         );
     }
 
-    public function update($editPost)
+    public function update(Post $Post)
     {
         $db = $this->getDB();
         $req = $db->prepare(
@@ -100,12 +102,12 @@ class PostManager extends BaseManager
         );
         $req->execute(
             [
-                'userId' => $editPost['userId'],
-                'title' => $editPost['title'],
-                'chapo' => $editPost['chapo'],
-                'content' => $editPost['content'],
-                'publish' => $editPost['publish'],
-                'id' => $editPost['postId']
+                'userId' => $Post->userId(),
+                'title' => $Post->title(),
+                'chapo' => $Post->chapo(),
+                'content' => $Post->content(),
+                'publish' => $Post->publish(),
+                'id' => $Post->getId()
             ]
         );
     }

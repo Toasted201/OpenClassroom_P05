@@ -1,54 +1,62 @@
 {% extends "Template/base.html.twig" %}
 
-{% block title %}Accueil{% endblock %}
-
-{% block content %}
-    <div class="row">
-        <div class="col-12 col-md-8">
-         {% for post in listPostsHome %}
-            <div class="card border-primary mb-3" style="width: 100%;">
-              <img src="img/news.jpg" class="card-img-top" alt="imageblog">
-              <div class="card-body">
-                <h5 class="card-title">{{ post.title }}</h5>
-                <p class="card-text"> {{ post.chapo }} </p> 
-                <a href="?action=post&postId={{ post.id }}" class="btn btn-primary">La suite </a>
-              </div>
-            </div>  
-          {% endfor %}
-        </div>
-        <div class="col-12 col-md-4 border border-primary-light">
-          <div class="bs-docs-section">
-            <form method="post" action='?action=contact'>
-                <fieldset>
-                  <h3>Contactez-moi</h3>
-                  <div class="form-group">
-                    <label for="nomMessage">Nom Prénom</label>
-                    <input type="text" class="form-control" id="nomMessage" name='identity' required>
-                  </div>
-                  <div class="form-group">
-                    <label for="emailMessage">Votre email</label>
-                    <input type="email" class="form-control" id="emailMessage" placeholder="exemple@exemple.com" name='email' required>
-                  </div>
-                  <div class="form-group">
-                    <label for="contactMessage">Votre message : </label>
-                    <textarea class="form-control" id="contactMessage" name='message' rows="4" required></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-info">Envoyer</button>
-                </fieldset>
-              </form>
-              {% if flashError != false  %}
-                <div class="alert alert-dismissible alert-secondary">
-                  {{ flashError }}
-                </div>
-              {% else %}
-                  {% if flashSuccess != false  %}
-                    <div class="alert alert-dismissible alert-primary">
-                      {{ flashSuccess }}
-                    </div>
-                    {% endif %}
-               {% endif %}     
-          </div>
-        </div>
-    </div>
+{% block title %}Accueil
+{% endblock %}
+{% block metaName %}Accueil
+{% endblock %}
+{% block metaContent %}Accueil blog Julie Xaxa
 {% endblock %}
 
+{% block content %}
+	<div class="row">
+		<div class="col-12 col-md-8">
+			{% for post in listPostsHome %}
+				<div class="card border-primary mb-3" style="width: 100%;">
+					<img src="img/news.jpg" class="card-img-top" alt="imageblog">
+					<div class="card-body">
+						<h5 class="card-title">{{ post.title }}</h5>
+						<p class="card-text">
+							{{ post.chapo }}
+						</p>
+						<a href="?action=post&postId={{ post.id }}" class="btn btn-primary">La suite
+						</a>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<div class="col-12 col-md-4 border border-primary-light">
+			<div class="bs-docs-section">
+				<form method="post" action='?action=contact'>
+					<h3>Contactez-moi</h3>
+					<div class="form-group">
+						<label for="nomMessage">Nom Prénom</label>
+						<input type="text" class="form-control" id="nomMessage" name='identity' required/>
+					</div>
+					<div class="form-group">
+						<label for="emailMessage">Votre email</label>
+						<input type="email" class="form-control" id="emailMessage" placeholder="exemple@exemple.com" name='email' required/>
+					</div>
+					<div class="form-group">
+						<label for="contactMessage">Votre message :
+						</label>
+						<textarea class="form-control" id="contactMessage" name='message' rows="4" required></textarea>
+					</div>
+					<button type="submit" class="btn btn-info">
+						Envoyer
+					</button>
+				</form>
+				{% if flashError != false  %}
+					<div class="alert alert-dismissible alert-secondary">
+						{{ flashError }}
+					</div>
+				{% else %}
+					{% if flashSuccess != false  %}
+						<div class="alert alert-dismissible alert-primary">
+							{{ flashSuccess }}
+						</div>
+					{% endif %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -21,7 +21,7 @@ Votre projet doit être poussé et disponible sur GitHub.
 
 ## Pour commencer
 
-### Pré-requis
+### Prérequis
 
 - Php 7.4
 - Apache 2.2
@@ -33,7 +33,7 @@ Votre projet doit être poussé et disponible sur GitHub.
 
 - Cloner le projet en local
 - Importer la base de données d'exemple : /db_blog.sql
-- Configuer Apache pour pointer vers le repertoire public/
+- Configurer Apache pour pointer vers le répertoire public/
 - Exécuter la commande composer :
 ```bash
 composer install

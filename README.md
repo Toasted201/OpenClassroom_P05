@@ -26,41 +26,45 @@ Votre projet doit être poussé et disponible sur GitHub.
 - Php 7.4
 - Apache 2.2
 - Composer 1.10
-- Une base de données mySQL
+- Une base de données mySQL 5.7
 - Git
 
 ### Installation
 
 - Cloner le projet en local
-- Importer la base de données exemple : db_blog.sql
-- Configuer Apache pour pointer vers le repertoire public
-- Executer la commande composer install
-(phpdotenv 5.1)
-(bootswatch 4.5) 
-(twig 3.0)
-(swiftmailer 6.2)
+- Importer la base de données d'exemple : /db_blog.sql
+- Configuer Apache pour pointer vers le repertoire public/
+- Executer la commande composer :
+```bash
+composer install
+```
+
 
 ### Paramétrage
 
 - Base de données : 
-Modifier les informations de connexion dans le fichier .env
+Modifier les informations de connexion dans le fichier \.env
 
 - Envoi des mails :
 Si vous souhaitez utiliser un serveur de mail afin d'envoyer des mails, vous pouvez le configurer dans $transport de FrontController.php.
-Les informations de connexion sont dans le fichier .env.
+Les informations de connexion sont dans le fichier \.env.
 
 
-## Farbriqué avec
+## Fabriqué avec
 
 * Visual Studio Code
 * Twig Language
 * PHP Sniffer & Beautifier
 * PHP Intelephense
 * Live Server
+* phpdotenv 5.1
+* bootswatch 4.5 
+* twig 3.0
+* swiftmailer 6.2
 
 
 ## Versions
-** V2.1 ** Première version utilisable
+** V2.1 ** Première version publiée
 ** V2.0 ** Polishing & Refactoring
 ** V1.1 ** Bug Fixes
 ** V1.0 ** Première version

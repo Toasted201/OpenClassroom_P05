@@ -64,7 +64,7 @@ Les informations de connexion sont dans le fichier \.env.
 
 
 ## Versions
-** V2.1 ** Première version publiée
-** V2.0 ** Polishing & Refactoring
-** V1.1 ** Bug Fixes
-** V1.0 ** Première version
+- **V2.1** Première version publiée
+- **V2.0** Polishing & Refactoring
+- **V1.1** Bug Fixes
+- **V1.0** Première version

@@ -34,7 +34,7 @@ Votre projet doit être poussé et disponible sur GitHub.
 - Cloner le projet en local
 - Importer la base de données d'exemple : /db_blog.sql
 - Configuer Apache pour pointer vers le repertoire public/
-- Executer la commande composer :
+- Exécuter la commande composer :
 ```bash
 composer install
 ```
@@ -43,11 +43,11 @@ composer install
 ### Paramétrage
 
 - Base de données : 
-Modifier les informations de connexion dans le fichier \.env
+Modifier les informations de connexion dans le fichier /.env
 
 - Envoi des mails :
 Si vous souhaitez utiliser un serveur de mail afin d'envoyer des mails, vous pouvez le configurer dans $transport de FrontController.php.
-Les informations de connexion sont dans le fichier \.env.
+Les informations de connexion sont dans le fichier /.env.
 
 
 ## Fabriqué avec

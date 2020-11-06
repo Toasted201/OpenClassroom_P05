@@ -210,8 +210,17 @@ class FrontController extends BaseController
         exit;
     }
 
+    public function denyAccessUnlessConnected()
+    {
+        $connectedUser = Session::auth();
+        if (!isset($connectedUser)) {
+            exit;
+        }
+    }
+    
     public function addComment()
     {
+        $this->denyAccessUnlessConnected();
         $postId = Request::postData('postId');
         $content = Request::postData('commentContent');
         $connectedUser = Session::auth();

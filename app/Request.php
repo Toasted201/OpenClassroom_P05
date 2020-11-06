@@ -12,10 +12,10 @@ class Request
         return '';
     }
 
-    public static function postData(string $key)
+    public static function postData(string $key, string $type = 'text')
     {
-        if (isset($_POST[$key])) {
-            return $_POST[$key];
+        if (isset($_POST[$key]) and $type == 'text') {
+            return strip_tags($_POST[$key]);
         }
         return '';
     }

@@ -12,13 +12,28 @@ use Model\Entity\Post;
 
 class BackController extends BaseController
 {
+    public function denyAccessUnlessAdmin()
+    {
+        $userRole = '';
+        $connectedUser = Session::auth();
+        if (isset($connectedUser)) {
+            $userRole = $connectedUser->userRole();
+        }
+        if ($userRole != 'admin') {
+            header("Location: ?action=");
+            exit;
+        }
+    }
+         
     public function admin()
     {
+        $this->denyAccessUnlessAdmin();
         echo $this->render('Back/admin.html.twig', []);
     }
-        
+
     public function newPost()
     {
+        $this->denyAccessUnlessAdmin();
         $successNewPost = Session::Flash('successNewPost');
         $errorNewPost = Session::Flash('errorNewPost');
         echo $this->render(
@@ -30,9 +45,9 @@ class BackController extends BaseController
 
     public function addPost()
     {
+        $this->denyAccessUnlessAdmin();
         $connectedUser = Session::auth();
         $userId = $connectedUser->getId();
-        $userRole = $connectedUser->userRole();
         $title = Request::postData('titleNewPost');
         $chapo = Request::postData('chapoNewPost');
         $content = Request::postData('contentNewPost');
@@ -44,15 +59,9 @@ class BackController extends BaseController
                 Session::setFlash('errorNewPost', 'Il y a une erreur dans l\'envoi du formulaire');
             }
         }
-        if (!$error_form) {
-            if ($userRole != 'admin') {
-                $error_form = true;
-                Session::setFlash('errorNewPost', 'Vous n\êtes pas connecté en tant qu\'admin');
-            }
-        }
         if ($error_form) {
-                header("Location: ?action=newPost");
-                exit;
+            header("Location: ?action=newPost");
+            exit;
         }
         $post = new Post(
             ['userId' => $userId,
@@ -72,6 +81,7 @@ class BackController extends BaseController
 
     public function editPostList()
     {
+        $this->denyAccessUnlessAdmin();
         $managerPost = new PostManager();
         $posts = $managerPost->getPosts();
         echo $this->render('Back/editPostList.html.twig', ['listPosts' => $posts]);
@@ -79,6 +89,7 @@ class BackController extends BaseController
 
     public function editPostDetail($postId)
     {
+        $this->denyAccessUnlessAdmin();
         $successEditPost = Session::Flash('successEditPost');
         $errorEditPost = Session::Flash('errorEditPost');
         $managerPost = new PostManager();
@@ -95,14 +106,13 @@ class BackController extends BaseController
         
     public function updatePost()
     {
+        $this->denyAccessUnlessAdmin();
         $title = Request::postData('titleEditPost');
         $chapo = Request::postData('chapoEditPost');
         $content = Request::postData('contentEditPost');
         $publish = Request::postData('publishEditPost');
         $userId = Request::postData('userIdEditPost');
         $postId = Request::postData('postId');
-        $connectedUser = Session::auth();
-        $userRole = $connectedUser->userRole();
         $error_form = false;
         if (
             !isset($title) or
@@ -114,12 +124,6 @@ class BackController extends BaseController
         ) {
             $error_form = true;
             Session::setFlash('errorEditPost', 'Il y a une erreur dans l\'envoi du formulaire');
-        }
-        if (!$error_form) {
-            if ($userRole != 'admin') {
-                $error_form = true;
-                Session::setFlash('errorEditPost', 'Vous n\êtes pas connecté en tant qu\'admin');
-            }
         }
         if ($error_form) {
             header("Location: ?action=editPostDetail&postId=$postId");
@@ -143,6 +147,7 @@ class BackController extends BaseController
 
     public function validComment()
     {
+        $this->denyAccessUnlessAdmin();
         $managerComment = new CommentManager();
         $waitComments = $managerComment->getWaitComments();
         $errorEditComment = Session::Flash('errorEditComment');
@@ -154,10 +159,9 @@ class BackController extends BaseController
 
     public function validCommentForm()
     {
+        $this->denyAccessUnlessAdmin();
         $statut = Request::postData('validComment');
         $id = Request::postData('commentId');
-        $connectedUser = Session::auth();
-        $userRole = $connectedUser->userRole();
         $error_form = false ;
         if (
             !isset($statut) or
@@ -165,12 +169,6 @@ class BackController extends BaseController
         ) {
             $error_form = true;
             Session::setFlash('errorValidComment', 'Il y a une erreur dans l\'envoi du formulaire');
-        }
-        if (!$error_form) {
-            if ($userRole != 'admin') {
-                $error_form = true;
-                Session::setFlash('errorValidPost', 'Vous n\êtes pas connecté en tant qu\'admin');
-            }
         }
         if ($error_form) {
             header("Location: ?action=validComment");
